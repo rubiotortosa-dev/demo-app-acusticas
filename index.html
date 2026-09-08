@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Demo - Automatización de documentación técnica</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="app">
+
+        <!-- =========================================
+             CABECERA
+             ========================================= -->
+
+        <header class="cabecera">
+
+            <div class="cabecera-contenido">
+
+                <h1>
+                    Automatización de documentación técnica
+                </h1>
+
+                <p>
+                    Demo de generación automática de informes técnicos
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================================
+             AVISO DE DEMO
+             ========================================= -->
+
+        <section class="aviso-demo">
+
+            <strong>
+                DEMO · VERSIÓN DE PRUEBA
+            </strong>
+
+            <p>
+                Esta aplicación es una demostración de carácter
+                exclusivamente académico y experimental.
+                Los informes generados no son válidos para uso
+                profesional ni administrativo.
+            </p>
+
+        </section>
+
+
+        <!-- =========================================
+             INTRODUCCIÓN
+             ========================================= -->
+
+        <section class="tarjeta">
+
+            <h2>
+                Generación de informe técnico
+            </h2>
+
+            <p>
+                Introduce los datos del ejemplo y la aplicación
+                realizará automáticamente los cálculos y generará
+                la documentación técnica correspondiente.
+            </p>
+
+        </section>
+
+
+        <!-- =========================================
+             IDENTIFICACIÓN
+             ========================================= -->
+
+        <section
+            id="identificacion"
+            class="tarjeta"
+        >
+
+            <h2>
+                Identificación
+            </h2>
+
+            <label for="nombre">
+                Nombre
+            </label>
+
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre y apellidos"
+                autocomplete="name"
+            >
+
+        </section>
+
+
+        <!-- =========================================
+             DATOS DEL INFORME
+             ========================================= -->
+
+        <section
+            id="datosInforme"
+            class="tarjeta"
+        >
+
+            <h2>
+                Datos del informe
+            </h2>
+
+
+            <div class="campo">
+
+                <label for="fecha">
+                    Fecha
+                </label>
+
+                <input
+                    type="date"
+                    id="fecha"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="obra">
+                    Obra
+                </label>
+
+                <input
+                    type="text"
+                    id="obra"
+                    placeholder="Ejemplo de obra"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="peticionario">
+                    Peticionario
+                </label>
+
+                <input
+                    type="text"
+                    id="peticionario"
+                    placeholder="Nombre del peticionario"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="expediente">
+                    Nº de expediente
+                </label>
+
+                <input
+                    type="text"
+                    id="expediente"
+                    placeholder="EXP-2026-001"
+                >
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================================
+             ENSAYO ACÚSTICO
+             ========================================= -->
+
+        <section
+            id="ensayoAcustico"
+            class="tarjeta"
+        >
+
+            <h2>
+                Ensayo acústico
+            </h2>
+
+
+            <div class="campo">
+
+                <label for="tipoMedida">
+                    Tipo de medición
+                </label>
+
+                <select id="tipoMedida">
+
+                    <option value="">
+                        Seleccionar
+                    </option>
+
+                    <option value="interior">
+                        Medición interior
+                    </option>
+
+                    <option value="exterior">
+                        Medición exterior
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="estancia">
+                    Estancia / zona
+                </label>
+
+                <select id="estancia">
+
+                    <option value="">
+                        Seleccionar
+                    </option>
+
+                    <option value="salon">
+                        Salón
+                    </option>
+
+                    <option value="dormitorio">
+                        Dormitorio
+                    </option>
+
+                    <option value="oficina">
+                        Oficina
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="periodo">
+                    Periodo
+                </label>
+
+                <select id="periodo">
+
+                    <option value="">
+                        Seleccionar
+                    </option>
+
+                    <option value="diurno">
+                        Diurno
+                    </option>
+
+                    <option value="vespertino">
+                        Vespertino
+                    </option>
+
+                    <option value="nocturno">
+                        Nocturno
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="valorMedido">
+                    Nivel medido
+                </label>
+
+                <div class="campo-unidad">
+
+                    <input
+                        type="number"
+                        id="valorMedido"
+                        step="0.1"
+                        min="0"
+                        placeholder="Ej. 42.5"
+                    >
+
+                    <span>
+                        dB
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="resultadoCalculo"
+                class="resultado"
+            >
+
+                <h3>
+                    Resultado
+                </h3>
+
+                <p id="resultadoTexto">
+                    Introduce los datos para obtener el resultado.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================================
+             BOTÓN GENERAR
+             ========================================= -->
+
+        <section class="acciones">
+
+            <button
+                type="button"
+                id="generarInforme"
+            >
+                GENERAR INFORME
+            </button>
+
+        </section>
+
+
+        <!-- =========================================
+             PROGRESO
+             ========================================= -->
+
+        <section
+            id="pantallaProgresoInforme"
+            class="pantalla-progreso"
+        >
+
+            <div class="progreso-card">
+
+                <div class="progreso-icono">
+                    PDF
+                </div>
+
+                <div class="progreso-spinner"></div>
+
+                <h2 id="progresoTitulo">
+                    Generando informe
+                </h2>
+
+                <p id="progresoSubtitulo">
+                    Preparando el documento...
+                </p>
+
+                <div
+                    id="progresoPorcentaje"
+                    class="progreso-porcentaje"
+                >
+                    0 %
+                </div>
+
+
+                <div class="progreso-pasos">
+
+                    <div
+                        id="pasoDatos"
+                        class="progreso-paso"
+                    >
+
+                        <span class="progreso-paso-icono">
+                            1
+                        </span>
+
+                        <span>
+                            Preparando datos
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="pasoPlantilla"
+                        class="progreso-paso"
+                    >
+
+                        <span class="progreso-paso-icono">
+                            2
+                        </span>
+
+                        <span>
+                            Cargando plantilla LaTeX
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="pasoBusytex"
+                        class="progreso-paso"
+                    >
+
+                        <span class="progreso-paso-icono">
+                            3
+                        </span>
+
+                        <span>
+                            Inicializando motor LaTeX
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="pasoCompilacion"
+                        class="progreso-paso"
+                    >
+
+                        <span class="progreso-paso-icono">
+                            4
+                        </span>
+
+                        <span>
+                            Compilando documento
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="pasoPDF"
+                        class="progreso-paso"
+                    >
+
+                        <span class="progreso-paso-icono">
+                            5
+                        </span>
+
+                        <span>
+                            Preparando PDF
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             VISOR PDF
+             ========================================= -->
+
+        <section
+            id="visorPDF"
+            class="tarjeta visor-pdf"
+        >
+
+            <h2>
+                Informe generado
+            </h2>
+
+            <p>
+                El informe técnico aparecerá aquí cuando
+                finalice la generación.
+            </p>
+
+
+            <iframe
+                id="pdfFrame"
+                title="Vista previa del informe PDF"
+            >
+            </iframe>
+
+
+            <div class="acciones-pdf">
+
+                <button
+                    type="button"
+                    id="descargarPDF"
+                >
+                    DESCARGAR PDF
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             PIE
+             ========================================= -->
+
+        <footer>
+
+            <p>
+                Demo desarrollada como proyecto personal de
+                automatización de documentación técnica.
+            </p>
+
+            <p>
+                Versión demostrativa · No válida para uso profesional
+            </p>
+
+        </footer>
+
+
+    </main>
+
+
+    <!-- =========================================
+         JSZIP
+         ========================================= -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+    ></script>
+
+
+    <!-- =========================================
+         BUSYTÉX
+         ========================================= -->
+
+    <script type="module">
+
+        import {
+            BusyTexRunner,
+            PdfLatex
+        }
+
+        from
+        "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/+esm";
+
+
+        window.BusyTexRunner =
+            BusyTexRunner;
+
+
+        window.PdfLatex =
+            PdfLatex;
+
+
+        console.log(
+            "[Demo] BusyTeX cargado correctamente."
+        );
+
+
+        console.log(
+            "[Demo] PdfLatex cargado correctamente."
+        );
+
+    </script>
+
+
+    <!-- =========================================
+         JAVASCRIPT DE LA APLICACIÓN
+         ========================================= -->
+
+    <script
+        src="script.js"
+    ></script>
+
+
+</body>
+
+</html>
