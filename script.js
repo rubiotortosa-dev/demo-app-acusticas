@@ -1084,14 +1084,12 @@ async function generarInforme() {
     console.log("INICIANDO GENERACIÓN DEL INFORME");
     console.log("========================================");
 
-
     // =====================================================
     // EXPEDIENTE ACTUAL
     // =====================================================
 
     const numeroExpediente =
         localStorage.getItem("expedienteActual");
-
 
     if (!numeroExpediente) {
 
@@ -1138,7 +1136,6 @@ async function generarInforme() {
     // =====================================================
 
     mostrarEstadoGeneracionPDF();
-
 
     actualizarProgresoInforme(
         5,
@@ -1447,11 +1444,9 @@ async function generarInforme() {
             "========================================"
         );
 
-
         console.log(
-            "INICIANDO BUSYTEX"
+            "INICIANDO BUSYTÉX"
         );
-
 
         console.log(
             "========================================"
@@ -1462,31 +1457,14 @@ async function generarInforme() {
         // CONFIGURACIÓN
         // -------------------------------------------------
 
-        /*
-         * Assets oficiales de BusyTeX 1.2.X.
-         *
-         * Esta versión es compatible con:
-         *
-         * texlyre-busytex@1.2.3
-         *
-         * No se descargan al repositorio.
-         * Se cargan directamente desde GitHub Releases.
-         */
-
         const basePath =
-            "https://github.com/TeXlyre/texlyre-busytex-build/releases/download/build_wasm_d7f4e922a0b3d72ba85dd528ff0263caeebd68fb_28704779867_1";
+            "/demo-app-acusticas/core/busytex";
 
 
         const paquetes = [
 
             basePath +
-            "/texlive-basic.js",
-
-            basePath +
-            "/texlive-recommended.js",
-
-            basePath +
-            "/texlive-extra.js"
+            "/texlive-basic.js"
 
         ];
 
@@ -1502,7 +1480,7 @@ async function generarInforme() {
 
 
         console.log(
-            "Paquetes remotos:",
+            "Paquetes locales:",
             paquetes
         );
 
@@ -1934,7 +1912,7 @@ async function generarInforme() {
 
 
         console.log(
-            "RESULTADO BUSYTEX"
+            "RESULTADO BUSYTÉX"
         );
 
 
@@ -7039,734 +7017,271 @@ function volverInicio() {
     mostrarInicio(nombre);
 
 }
+
 /* =========================================================
-   ADAPTACIÓN DEMO ONLINE
+   ADAPTACIÓN PARA LA DEMO ONLINE
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("[DEMO] Inicializando aplicación online...");
-    inicializarDemoOnline();
-});
-
-function inicializarDemoOnline() {
-    const tablaInterior = document.querySelector("#tablaInterior tbody");
-    const tablaExterior = document.querySelector("#tablaExterior tbody");
-
-    if (tablaInterior && tablaInterior.children.length === 0) {
-        anadirMedidaInterior();
-    }
-
-    if (tablaExterior && tablaExterior.children.length === 0) {
-        anadirMedidaExterior();
-    }
-
-    actualizarResumenDemo();
+function fechaHoyISO() {
+    const ahora = new Date();
+    const offset = ahora.getTimezoneOffset();
+    return new Date(ahora.getTime() - offset * 60000).toISOString().slice(0, 10);
 }
 
-function anadirMedidaInterior() {
-    const tabla = document.querySelector("#tablaInterior tbody");
-
-    if (!tabla) {
-        console.error("[DEMO] No se encuentra la tabla interior.");
-        return;
-    }
-
-    const fila = document.createElement("tr");
-
-    fila.innerHTML = `
-        <td>
-            <input type="text" class="campo-instalacion" placeholder="Instalación">
-        </td>
-        <td>
-            <input type="text" class="campo-vivienda" placeholder="Vivienda">
-        </td>
-        <td>
-            <select class="campo-estancia"
-                onchange="
-                    actualizarLimiteInterior(this);
-                    actualizarResumenDemo();
-                ">
-                <option value="">Seleccionar</option>
-                <option value="salon">Salón</option>
-                <option value="oficina">Oficina</option>
-                <option value="dormitorio">Dormitorio</option>
-            </select>
-        </td>
-        <td>
-            <select class="campo-periodo"
-                onchange="
-                    actualizarLimiteInterior(this);
-                    actualizarResumenDemo();
-                ">
-                <option value="">Seleccionar</option>
-                <option value="Día">Día</option>
-                <option value="Vespertino">Vespertino</option>
-                <option value="Nocturno">Nocturno</option>
-            </select>
-        </td>
-        <td>
-            <input type="number" step="0.1" min="0"
-                class="campo-valor"
-                placeholder="dB"
-                oninput="
-                    actualizarResultado(this.closest('tr'));
-                    actualizarResumenDemo();
-                ">
-        </td>
-        <td class="limite">—</td>
-        <td class="resultado">—</td>
-        <td>
-            <button type="button"
-                class="boton-eliminar"
-                onclick="
-                    eliminarMedida(this);
-                    actualizarResumenDemo();
-                "
-                title="Eliminar medición">
-                ×
-            </button>
-        </td>
-    `;
-
-    tabla.appendChild(fila);
-    actualizarResumenDemo();
+function formatearFecha(fecha) {
+    if (!fecha) return "";
+    const partes = fecha.split("-");
+    if (partes.length !== 3) return fecha;
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
-function anadirMedidaExterior() {
-    const tabla = document.querySelector("#tablaExterior tbody");
-
-    if (!tabla) {
-        console.error("[DEMO] No se encuentra la tabla exterior.");
-        return;
+function calcularLimiteDemo(tipo, estancia, periodo) {
+    if (!periodo) return null;
+    if (tipo === "interior") {
+        if (estancia === "salon" || estancia === "oficina") {
+            return (periodo === "Día" || periodo === "Vespertino") ? 45 : periodo === "Nocturno" ? 35 : null;
+        }
+        if (estancia === "dormitorio") {
+            return (periodo === "Día" || periodo === "Vespertino") ? 40 : periodo === "Nocturno" ? 30 : null;
+        }
     }
-
-    const fila = document.createElement("tr");
-
-    fila.innerHTML = `
-        <td>
-            <input type="text" class="campo-instalacion" placeholder="Instalación">
-        </td>
-        <td>
-            <input type="text" class="campo-vivienda" placeholder="Vivienda">
-        </td>
-        <td>
-            <input type="text" class="campo-zona" placeholder="Zona exterior">
-        </td>
-        <td>
-            <select class="campo-periodo"
-                onchange="
-                    actualizarLimiteExterior(this);
-                    actualizarResumenDemo();
-                ">
-                <option value="">Seleccionar</option>
-                <option value="Día">Día</option>
-                <option value="Vespertino">Vespertino</option>
-                <option value="Nocturno">Nocturno</option>
-            </select>
-        </td>
-        <td>
-            <input type="number" step="0.1" min="0"
-                class="campo-valor"
-                placeholder="dB"
-                oninput="
-                    actualizarResultadoExterior(this.closest('tr'));
-                    actualizarResumenDemo();
-                ">
-        </td>
-        <td class="limite">—</td>
-        <td class="resultado">—</td>
-        <td>
-            <button type="button"
-                class="boton-eliminar"
-                onclick="
-                    eliminarMedida(this);
-                    actualizarResumenDemo();
-                "
-                title="Eliminar medición">
-                ×
-            </button>
-        </td>
-    `;
-
-    tabla.appendChild(fila);
-    actualizarResumenDemo();
+    if (tipo === "exterior") {
+        const base = (periodo === "Día" || periodo === "Vespertino") ? 55 : periodo === "Nocturno" ? 45 : null;
+        return base === null ? null : base + 5;
+    }
+    return null;
 }
 
-function actualizarLimiteInterior(elemento) {
-    const fila = elemento.closest("tr");
-
-    if (!fila) return;
-
-    const estancia =
-        fila.querySelector(".campo-estancia")?.value || "";
-
-    const periodo =
-        fila.querySelector(".campo-periodo")?.value || "";
-
-    const limiteCelda =
-        fila.querySelector(".limite");
-
-    let limite = null;
-
-    if (estancia === "salon" || estancia === "oficina") {
-        if (periodo === "Día" || periodo === "Vespertino") {
-            limite = 45;
-        }
-
-        if (periodo === "Nocturno") {
-            limite = 35;
-        }
-    }
-
-    if (estancia === "dormitorio") {
-        if (periodo === "Día" || periodo === "Vespertino") {
-            limite = 40;
-        }
-
-        if (periodo === "Nocturno") {
-            limite = 30;
-        }
-    }
-
-    limiteCelda.textContent =
-        limite === null ? "—" : limite + " dB";
-
-    actualizarResultado(fila);
-    actualizarResumenDemo();
-}
-
-function actualizarResultado(fila) {
-    if (!fila) return;
-
-    const valorInput =
-        fila.querySelector(".campo-valor");
-
-    const resultado =
-        fila.querySelector(".resultado");
-
-    const limiteCelda =
-        fila.querySelector(".limite");
-
-    if (!valorInput || !resultado || !limiteCelda) {
-        return;
-    }
-
-    const valor =
-        parseFloat(valorInput.value);
-
-    const limite =
-        parseFloat(limiteCelda.textContent);
-
-    if (isNaN(valor) || isNaN(limite)) {
-        resultado.textContent = "—";
-        resultado.className = "resultado";
-        return;
-    }
-
-    if (valor <= limite) {
-        resultado.textContent = "CUMPLE";
-        resultado.className = "resultado cumple";
+function actualizarFilaInteriorDemo(fila) {
+    const selects = fila.querySelectorAll("select");
+    const estancia = selects[0]?.value || "";
+    const periodo = selects[1]?.value || "";
+    const valor = parseFloat(fila.querySelector('input[type="number"]')?.value);
+    const limite = calcularLimiteDemo("interior", estancia, periodo);
+    const celdaLimite = fila.querySelector(".limite");
+    const celdaResultado = fila.querySelector(".resultado");
+    celdaLimite.textContent = limite === null ? "—" : `${limite} dB`;
+    if (Number.isNaN(valor) || limite === null) {
+        celdaResultado.textContent = "—";
+        celdaResultado.className = "resultado resultado-celda";
+    } else if (valor <= limite) {
+        celdaResultado.textContent = "CUMPLE";
+        celdaResultado.className = "resultado resultado-celda cumple";
     } else {
-        resultado.textContent = "NO CUMPLE";
-        resultado.className = "resultado no-cumple";
+        celdaResultado.textContent = "NO CUMPLE";
+        celdaResultado.className = "resultado resultado-celda no-cumple";
     }
-}
-
-function actualizarLimiteExterior(elemento) {
-    const fila = elemento.closest("tr");
-
-    if (!fila) return;
-
-    const periodo =
-        fila.querySelector(".campo-periodo")?.value || "";
-
-    const limiteCelda =
-        fila.querySelector(".limite");
-
-    let limiteBase = null;
-
-    if (periodo === "Día" || periodo === "Vespertino") {
-        limiteBase = 55;
-    }
-
-    if (periodo === "Nocturno") {
-        limiteBase = 45;
-    }
-
-    if (limiteBase === null) {
-        limiteCelda.textContent = "—";
-    } else {
-        limiteCelda.textContent =
-            (limiteBase + 5) + " dB";
-    }
-
-    actualizarResultadoExterior(fila);
     actualizarResumenDemo();
 }
 
-function actualizarResultadoExterior(fila) {
-    if (!fila) return;
-
-    const valorInput =
-        fila.querySelector(".campo-valor");
-
-    const resultado =
-        fila.querySelector(".resultado");
-
-    const limiteCelda =
-        fila.querySelector(".limite");
-
-    if (!valorInput || !resultado || !limiteCelda) {
-        return;
-    }
-
-    const valor =
-        parseFloat(valorInput.value);
-
-    const limite =
-        parseFloat(limiteCelda.textContent);
-
-    if (isNaN(valor) || isNaN(limite)) {
-        resultado.textContent = "—";
-        resultado.className = "resultado";
-        return;
-    }
-
-    if (valor <= limite) {
-        resultado.textContent = "CUMPLE";
-        resultado.className = "resultado cumple";
+function actualizarFilaExteriorDemo(fila) {
+    const periodo = fila.querySelector("select")?.value || "";
+    const valor = parseFloat(fila.querySelector('input[type="number"]')?.value);
+    const limite = calcularLimiteDemo("exterior", "", periodo);
+    const celdaLimite = fila.querySelector(".limite");
+    const celdaResultado = fila.querySelector(".resultado");
+    celdaLimite.textContent = limite === null ? "—" : `${limite} dB (+5)`;
+    if (Number.isNaN(valor) || limite === null) {
+        celdaResultado.textContent = "—";
+        celdaResultado.className = "resultado resultado-celda";
+    } else if (valor <= limite) {
+        celdaResultado.textContent = "CUMPLE";
+        celdaResultado.className = "resultado resultado-celda cumple";
     } else {
-        resultado.textContent = "NO CUMPLE";
-        resultado.className = "resultado no-cumple";
+        celdaResultado.textContent = "NO CUMPLE";
+        celdaResultado.className = "resultado resultado-celda no-cumple";
     }
+    actualizarResumenDemo();
 }
 
-function eliminarMedida(boton) {
-    if (!boton) return;
+function prepararFilaInteriorDemo(fila) {
+    fila.querySelectorAll("select").forEach(select => {
+        select.addEventListener("change", () => actualizarFilaInteriorDemo(fila));
+    });
+    const input = fila.querySelector('input[type="number"]');
+    if (input) input.addEventListener("input", () => actualizarFilaInteriorDemo(fila));
+    actualizarFilaInteriorDemo(fila);
+}
 
+function prepararFilaExteriorDemo(fila) {
+    fila.querySelectorAll("select").forEach(select => {
+        select.addEventListener("change", () => actualizarFilaExteriorDemo(fila));
+    });
+    const input = fila.querySelector('input[type="number"]');
+    if (input) input.addEventListener("input", () => actualizarFilaExteriorDemo(fila));
+    actualizarFilaExteriorDemo(fila);
+}
+
+const anadirMedidaInteriorOriginal = anadirMedidaInterior;
+const anadirMedidaExteriorOriginal = anadirMedidaExterior;
+
+anadirMedidaInterior = function () {
+    anadirMedidaInteriorOriginal();
+    const filas = document.querySelectorAll("#tablaInterior tbody tr");
+    const fila = filas[filas.length - 1];
+    if (fila) prepararFilaInteriorDemo(fila);
+    actualizarResumenDemo();
+};
+
+anadirMedidaExterior = function () {
+    anadirMedidaExteriorOriginal();
+    const filas = document.querySelectorAll("#tablaExterior tbody tr");
+    const fila = filas[filas.length - 1];
+    if (fila) prepararFilaExteriorDemo(fila);
+    actualizarResumenDemo();
+};
+
+function eliminarMedidaDemo(boton) {
     const fila = boton.closest("tr");
-
-    if (fila) {
-        fila.remove();
-    }
-
+    if (fila) fila.remove();
     actualizarResumenDemo();
 }
 
 function actualizarResumenDemo() {
-    const filasInterior = Array.from(
-        document.querySelectorAll("#tablaInterior tbody tr")
-    );
-
-    const filasExterior = Array.from(
-        document.querySelectorAll("#tablaExterior tbody tr")
-    );
-
     const filas = [
-        ...filasInterior,
-        ...filasExterior
+        ...document.querySelectorAll("#tablaInterior tbody tr"),
+        ...document.querySelectorAll("#tablaExterior tbody tr")
     ];
-
-    let total = 0;
+    let completas = 0;
     let cumplen = 0;
     let noCumplen = 0;
-
     filas.forEach(fila => {
-        const valor =
-            parseFloat(
-                fila.querySelector(".campo-valor")?.value
-            );
+        const resultado = fila.querySelector(".resultado")?.textContent.trim();
+        if (resultado === "CUMPLE") { completas++; cumplen++; }
+        if (resultado === "NO CUMPLE") { completas++; noCumplen++; }
+    });
+    document.getElementById("totalMedidas").textContent = filas.length;
+    document.getElementById("totalCumplen").textContent = cumplen;
+    document.getElementById("totalNoCumplen").textContent = noCumplen;
+    const global = document.getElementById("resultadoGlobal");
+    global.className = "resultado-global";
+    if (completas === 0) {
+        global.classList.add("pendiente");
+        global.textContent = "Introduce al menos una medición completa.";
+    } else if (noCumplen > 0) {
+        global.classList.add("no-cumple");
+        global.textContent = `RESULTADO GLOBAL: NO CUMPLE · ${noCumplen} medición(es) fuera de límite`;
+    } else {
+        global.classList.add("cumple");
+        global.textContent = `RESULTADO GLOBAL: CUMPLE · ${cumplen} medición(es) dentro de límite`;
+    }
+}
 
-        const limite =
-            parseFloat(
-                fila.querySelector(".limite")?.textContent
-            );
-
-        if (isNaN(valor) || isNaN(limite)) {
-            return;
-        }
-
-        total++;
-
-        if (valor <= limite) {
-            cumplen++;
-        } else {
-            noCumplen++;
+function recogerMedidasDemo() {
+    const interiores = [];
+    document.querySelectorAll("#tablaInterior tbody tr").forEach(fila => {
+        const inputs = fila.querySelectorAll("input");
+        const selects = fila.querySelectorAll("select");
+        const instalacion = inputs[0]?.value.trim() || "";
+        const vivienda = inputs[1]?.value.trim() || "";
+        const valorMedido = inputs[2]?.value.trim() || "";
+        const estancia = selects[0]?.value || "";
+        const periodo = selects[1]?.value || "";
+        if (instalacion || vivienda || valorMedido || estancia || periodo) {
+            interiores.push({ instalacion, vivienda, estancia, periodo, valorMedido });
         }
     });
-
-    const totalElemento =
-        document.getElementById("totalMedidas");
-
-    const cumplenElemento =
-        document.getElementById("totalCumplen");
-
-    const noCumplenElemento =
-        document.getElementById("totalNoCumplen");
-
-    if (totalElemento) {
-        totalElemento.textContent = total;
-    }
-
-    if (cumplenElemento) {
-        cumplenElemento.textContent = cumplen;
-    }
-
-    if (noCumplenElemento) {
-        noCumplenElemento.textContent = noCumplen;
-    }
-
-    const resultadoGlobal =
-        document.getElementById("resultadoGlobal");
-
-    if (!resultadoGlobal) return;
-
-    if (total === 0) {
-        resultadoGlobal.textContent =
-            "Introduce al menos una medición completa.";
-
-        resultadoGlobal.className =
-            "resultado-global pendiente";
-
-        return;
-    }
-
-    if (noCumplen > 0) {
-        resultadoGlobal.textContent =
-            "NO CUMPLE";
-
-        resultadoGlobal.className =
-            "resultado-global no-cumple";
-    } else {
-        resultadoGlobal.textContent =
-            "CUMPLE";
-
-        resultadoGlobal.className =
-            "resultado-global cumple";
-    }
+    const exteriores = [];
+    document.querySelectorAll("#tablaExterior tbody tr").forEach(fila => {
+        const inputs = fila.querySelectorAll("input");
+        const instalacion = inputs[0]?.value.trim() || "";
+        const vivienda = inputs[1]?.value.trim() || "";
+        const zonaExterior = inputs[2]?.value.trim() || "";
+        const valorMedido = inputs[3]?.value.trim() || "";
+        const periodo = fila.querySelector("select")?.value || "";
+        if (instalacion || vivienda || zonaExterior || valorMedido || periodo) {
+            exteriores.push({ instalacion, vivienda, zonaExterior, periodo, valorMedido });
+        }
+    });
+    return { interiores, exteriores };
 }
 
-function obtenerMedicionesInteriorDemo() {
-    const filas = Array.from(
-        document.querySelectorAll("#tablaInterior tbody tr")
-    );
-
-    return filas
-        .map(fila => ({
-            instalacion:
-                fila.querySelector(".campo-instalacion")?.value.trim() || "",
-
-            vivienda:
-                fila.querySelector(".campo-vivienda")?.value.trim() || "",
-
-            estancia:
-                fila.querySelector(".campo-estancia")?.value || "",
-
-            periodo:
-                fila.querySelector(".campo-periodo")?.value || "",
-
-            valorMedido:
-                fila.querySelector(".campo-valor")?.value || ""
-        }))
-        .filter(medida => medida.valorMedido !== "");
-}
-
-function obtenerMedicionesExteriorDemo() {
-    const filas = Array.from(
-        document.querySelectorAll("#tablaExterior tbody tr")
-    );
-
-    return filas
-        .map(fila => ({
-            instalacion:
-                fila.querySelector(".campo-instalacion")?.value.trim() || "",
-
-            vivienda:
-                fila.querySelector(".campo-vivienda")?.value.trim() || "",
-
-            zonaExterior:
-                fila.querySelector(".campo-zona")?.value.trim() || "",
-
-            periodo:
-                fila.querySelector(".campo-periodo")?.value || "",
-
-            valorMedido:
-                fila.querySelector(".campo-valor")?.value || ""
-        }))
-        .filter(medida => medida.valorMedido !== "");
-}
-
-function prepararExpedienteDemoOnline() {
-    const obra =
-        document.getElementById("obra")?.value.trim() || "";
-
-    const expediente =
-        document.getElementById("expediente")?.value.trim() || "";
-
-    const peticionario =
-        document.getElementById("peticionario")?.value.trim() || "";
-
-    const localizacion =
-        document.getElementById("localizacion")?.value.trim() || "";
-
-    const nombre =
-        document.getElementById("nombre")?.value.trim() || "";
-
-    const fecha =
-        document.querySelector(
-            "#fechas input[type='date']"
-        )?.value || "";
-
-    const medidasInterior =
-        obtenerMedicionesInteriorDemo();
-
-    const medidasExterior =
-        obtenerMedicionesExteriorDemo();
-
-    if (!obra) {
-        alert("Introduce la obra.");
+function validarDemo() {
+    const obligatorios = ["nombre", "obra", "peticionario", "expediente", "localizacion"];
+    for (const id of obligatorios) {
+        if (!document.getElementById(id).value.trim()) {
+            alert(`Completa el campo: ${id}`);
+            document.getElementById(id).focus();
+            return false;
+        }
+    }
+    const { interiores, exteriores } = recogerMedidasDemo();
+    if (interiores.length + exteriores.length === 0) {
+        alert("Añade al menos una medición.");
         return false;
     }
-
-    if (!expediente) {
-        alert("Introduce el número de expediente.");
+    const filas = [
+        ...document.querySelectorAll("#tablaInterior tbody tr"),
+        ...document.querySelectorAll("#tablaExterior tbody tr")
+    ];
+    const incompletas = filas.some(fila => {
+        const resultado = fila.querySelector(".resultado")?.textContent.trim();
+        const tieneDatos = [...fila.querySelectorAll("input, select")].some(e => e.value.trim() !== "");
+        return tieneDatos && resultado === "—";
+    });
+    if (incompletas) {
+        alert("Hay alguna medición incompleta. Completa estancia, periodo y nivel medido antes de generar el informe.");
         return false;
     }
-
-    if (!peticionario) {
-        alert("Introduce el peticionario.");
-        return false;
-    }
-
-    if (!localizacion) {
-        alert("Introduce la localización.");
-        return false;
-    }
-
-    if (
-        medidasInterior.length === 0 &&
-        medidasExterior.length === 0
-    ) {
-        alert("Introduce al menos una medición.");
-        return false;
-    }
-
-    const datosExpediente = {
-        obra: obra,
-
-        tipo: "viviendas",
-
-        expediente: expediente,
-
-        peticionario: peticionario,
-
-        localizacion: localizacion,
-
-        fechas: fecha ? [fecha] : [],
-
-        creadoPor: nombre,
-
-        estado: "En curso",
-
-        medidasInterior: medidasInterior,
-
-        medidasExterior: medidasExterior,
-
-        imagenPortada: null,
-
-        imagenLocalizacion: null
-    };
-
-    let expedientes =
-        JSON.parse(
-            localStorage.getItem("expedientes")
-        ) || [];
-
-    const indice =
-        expedientes.findIndex(
-            item =>
-                String(item.expediente) ===
-                String(expediente)
-        );
-
-    if (indice >= 0) {
-        expedientes[indice] =
-            datosExpediente;
-    } else {
-        expedientes.push(
-            datosExpediente
-        );
-    }
-
-    localStorage.setItem(
-        "expedientes",
-        JSON.stringify(expedientes)
-    );
-
-    localStorage.setItem(
-        "expedienteActual",
-        expediente
-    );
-
-    localStorage.setItem(
-        "expedienteCargado",
-        JSON.stringify(datosExpediente)
-    );
-
-    localStorage.setItem(
-        "nombreUsuario",
-        nombre
-    );
-
-    console.log(
-        "[DEMO] Expediente preparado:",
-        datosExpediente
-    );
-
     return true;
 }
 
 async function adaptarFormularioYGenerar() {
-    console.log(
-        "========================================"
-    );
-
-    console.log(
-        "[DEMO] GENERAR INFORME"
-    );
-
-    console.log(
-        "========================================"
-    );
-
-    actualizarResumenDemo();
-
-    const preparado =
-        prepararExpedienteDemoOnline();
-
-    if (!preparado) {
-        return;
-    }
-
-    if (
-        typeof generarInforme !==
-        "function"
-    ) {
-        console.error(
-            "[DEMO] La función generarInforme() no está disponible."
-        );
-
-        alert(
-            "No se encuentra la función original de generación del informe."
-        );
-
-        return;
-    }
-
+    if (!validarDemo()) return;
+    const boton = document.getElementById("generarInforme");
+    boton.disabled = true;
+    boton.textContent = "GENERANDO INFORME...";
     try {
-        const boton =
-            document.getElementById(
-                "generarInforme"
-            );
-
-        if (boton) {
-            boton.disabled = true;
-        }
-
+        const fecha = document.getElementById("fecha").value || fechaHoyISO();
+        const fechas = Array.from(document.querySelectorAll("#fechas input[type='date']"))
+            .map(input => input.value).filter(Boolean);
+        if (fechas.length === 0) fechas.push(fecha);
+        const { interiores, exteriores } = recogerMedidasDemo();
+        const expediente = {
+            obra: document.getElementById("obra").value.trim(),
+            tipo: "vivienda",
+            expediente: document.getElementById("expediente").value.trim(),
+            peticionario: document.getElementById("peticionario").value.trim(),
+            localizacion: document.getElementById("localizacion").value.trim(),
+            fechas,
+            fechasvisita: fechas.map(formatearFecha).join(", "),
+            viviendasestudio: "viviendas",
+            creadoPor: document.getElementById("nombre").value.trim(),
+            estado: "En curso",
+            medidasInterior: interiores,
+            medidasExterior: exteriores,
+            imagenPortada: null,
+            imagenLocalizacion: null
+        };
+        localStorage.setItem("nombreUsuario", expediente.creadoPor);
+        localStorage.setItem("expedientes", JSON.stringify([expediente]));
+        localStorage.setItem("expedienteActual", expediente.expediente);
+        localStorage.setItem("expedienteCargado", JSON.stringify(expediente));
         await generarInforme();
-
-        if (boton) {
-            boton.disabled = false;
-        }
-
     } catch (error) {
-        console.error(
-            "[DEMO] Error generando el informe:",
-            error
-        );
-
-        const boton =
-            document.getElementById(
-                "generarInforme"
-            );
-
-        if (boton) {
-            boton.disabled = false;
-        }
-
-        if (
-            typeof mostrarErrorGeneracionPDF ===
-            "function"
-        ) {
-            mostrarErrorGeneracionPDF(
-                error.message
-            );
-        } else {
-            alert(
-                "Se ha producido un error al generar el informe:\n\n" +
-                error.message
-            );
-        }
+        console.error("Error en la adaptación de la demo:", error);
+        alert("No se ha podido generar el informe: " + (error.message || error));
+    } finally {
+        boton.disabled = false;
+        boton.textContent = "GENERAR INFORME";
     }
 }
 
-document.addEventListener(
-    "input",
-    function (evento) {
-        if (
-            evento.target.matches(
-                ".campo-valor"
-            )
-        ) {
-            actualizarResumenDemo();
-        }
-    }
-);
+function inicializarDemoOnline() {
+    const fecha = document.getElementById("fecha");
+    if (fecha && !fecha.value) fecha.value = fechaHoyISO();
+    const fechaVisita = document.querySelector("#fechas input[type='date']");
+    if (fechaVisita && !fechaVisita.value) fechaVisita.value = fecha?.value || fechaHoyISO();
+    anadirMedidaInterior();
+    anadirMedidaExterior();
+    actualizarResumenDemo();
+}
 
-document.addEventListener(
-    "change",
-    function (evento) {
-        if (
-            evento.target.matches(
-                ".campo-estancia"
-            )
-        ) {
-            actualizarLimiteInterior(
-                evento.target
-            );
-        }
+document.addEventListener("DOMContentLoaded", inicializarDemoOnline);
 
-        if (
-            evento.target.matches(
-                ".campo-periodo"
-            )
-        ) {
-            const fila =
-                evento.target.closest("tr");
 
-            if (
-                fila &&
-                fila.closest("#tablaInterior")
-            ) {
-                actualizarLimiteInterior(
-                    evento.target
-                );
-            }
-
-            if (
-                fila &&
-                fila.closest("#tablaExterior")
-            ) {
-                actualizarLimiteExterior(
-                    evento.target
-                );
-            }
-        }
-
-        actualizarResumenDemo();
-    }
-);
-
-/* =========================================================
-   FIN ADAPTACIÓN DEMO ONLINE
-   ========================================================= */
+const eliminarMedidaOriginal = eliminarMedida;
+eliminarMedida = function (boton) {
+    eliminarMedidaOriginal(boton);
+    actualizarResumenDemo();
+};
