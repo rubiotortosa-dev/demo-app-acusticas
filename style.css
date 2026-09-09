@@ -1,20 +1,22 @@
 /* =========================================================
-   CONFIGURACIÓN GENERAL
+   RESET
    ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
 
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
+    background: #f4f5f7;
+    color: #222;
 }
 
 
@@ -24,7 +26,9 @@ body {
 
 .app {
     width: 100%;
-    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
 }
 
 
@@ -33,53 +37,57 @@ body {
    ========================================================= */
 
 .cabecera {
-    background: #1769aa;
+    margin: 0 -20px;
+    padding: 35px 20px;
+    background: #1f2937;
     color: white;
-    padding: 45px 20px;
 }
 
+
 .cabecera-contenido {
-    width: min(1100px, 100%);
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+
 .cabecera h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
+    margin: 0 0 8px;
+    font-size: 30px;
     font-weight: 700;
 }
 
+
 .cabecera p {
     margin: 0;
-    font-size: 17px;
-    opacity: 0.95;
+    font-size: 16px;
+    opacity: 0.85;
 }
 
 
 /* =========================================================
-   AVISO DE DEMO
+   AVISO DEMO
    ========================================================= */
 
 .aviso-demo {
-    width: min(1100px, calc(100% - 40px));
-    margin: 25px auto 0;
-    padding: 20px 25px;
-    background: #fff8e1;
-    border: 1px solid #e6c86e;
-    border-left: 5px solid #d39e00;
+    margin: 25px 0;
+    padding: 18px 20px;
+    border: 1px solid #d6a72c;
     border-radius: 8px;
+    background: #fff8dc;
 }
+
 
 .aviso-demo strong {
     display: block;
-    margin-bottom: 8px;
-    color: #8a6500;
-    font-size: 15px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
+
 
 .aviso-demo p {
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.5;
     font-size: 14px;
 }
 
@@ -89,27 +97,24 @@ body {
    ========================================================= */
 
 .tarjeta {
-    width: min(1100px, calc(100% - 40px));
-    margin: 25px auto 0;
-    padding: 30px;
+    margin-bottom: 25px;
+    padding: 25px;
     background: white;
-    border: 1px solid #d9dee5;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
+
 
 .tarjeta h2 {
-    margin: 0 0 12px;
-    font-size: 23px;
-    color: #1769aa;
+    margin: 0 0 15px;
+    font-size: 21px;
+    color: #1f2937;
 }
 
-.tarjeta h3 {
-    margin-top: 0;
-}
 
-.tarjeta p {
-    line-height: 1.6;
+.tarjeta > p {
+    line-height: 1.55;
 }
 
 
@@ -118,74 +123,80 @@ body {
    ========================================================= */
 
 .campo {
-    margin-top: 20px;
+    margin-bottom: 18px;
 }
 
-label {
+
+.campo:last-child {
+    margin-bottom: 0;
+}
+
+
+.campo label {
     display: block;
     margin-bottom: 7px;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
+    color: #374151;
 }
 
-input,
-select {
+
+.campo input,
+.campo select {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #cbd2da;
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #cfd4dc;
     border-radius: 6px;
     background: white;
-    color: #1f2937;
-    font-size: 15px;
-    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: #222;
 }
 
-input:focus,
-select:focus {
-    border-color: #1769aa;
-    box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.12);
+
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: #6b7280;
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.12);
 }
 
 
 /* =========================================================
-   CAMPO CON UNIDAD
+   FECHAS
    ========================================================= */
 
-.campo-unidad {
+#fechas {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.campo-unidad input {
+
+.fecha {
+    display: flex;
+    gap: 8px;
+}
+
+
+.fecha input {
     flex: 1;
 }
 
-.campo-unidad span {
-    min-width: 35px;
-    font-weight: 600;
+
+.eliminar-fecha {
+    width: 42px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 20px;
 }
 
 
-/* =========================================================
-   RESULTADO
-   ========================================================= */
-
-.resultado {
-    margin-top: 25px;
-    padding: 20px;
-    background: #f4f7fa;
-    border: 1px solid #d9dee5;
-    border-radius: 8px;
-}
-
-.resultado h3 {
-    color: #1769aa;
-    margin-bottom: 8px;
-}
-
-.resultado p {
-    margin: 0;
+.eliminar-fecha:hover {
+    background: #f1f1f1;
 }
 
 
@@ -193,33 +204,277 @@ select:focus {
    BOTONES
    ========================================================= */
 
-.acciones {
-    width: min(1100px, calc(100% - 40px));
-    margin: 30px auto;
-    text-align: center;
+button {
+    font-family: inherit;
 }
 
-button {
-    padding: 13px 25px;
+
+.boton-secundario {
+    margin-top: 15px;
+    padding: 10px 15px;
+    border: 1px solid #bfc4cc;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+.boton-secundario:hover {
+    background: #f3f4f6;
+}
+
+
+/* =========================================================
+   TABLAS DE MEDICIONES
+   ========================================================= */
+
+.medidas-intro {
+    margin-bottom: 18px;
+    color: #555;
+    font-size: 14px;
+}
+
+
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+
+table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    background: white;
+}
+
+
+thead {
+    background: #f0f2f5;
+}
+
+
+th {
+    padding: 12px 10px;
+    border-bottom: 1px solid #d7dbe0;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+}
+
+
+td {
+    padding: 9px 8px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =========================================================
+   CAMPOS DENTRO DE LAS TABLAS
+   ========================================================= */
+
+table input,
+table select {
+    width: 100%;
+    min-width: 90px;
+    min-height: 36px;
+    padding: 7px 8px;
+    border: 1px solid #ccd1d8;
+    border-radius: 5px;
+    background: white;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+
+table input:focus,
+table select:focus {
+    outline: none;
+    border-color: #6b7280;
+}
+
+
+/* =========================================================
+   LÍMITE
+   ========================================================= */
+
+.limite {
+    min-width: 75px;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 600;
+    color: #374151;
+}
+
+
+/* =========================================================
+   RESULTADO DE CADA MEDICIÓN
+   ========================================================= */
+
+.resultado {
+    min-width: 95px;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+
+.resultado.cumple {
+    color: #166534;
+}
+
+
+.resultado.no-cumple {
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   BOTÓN ELIMINAR MEDICIÓN
+   ========================================================= */
+
+.boton-eliminar {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    background: white;
+    color: #555;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+}
+
+
+.boton-eliminar:hover {
+    background: #f3f4f6;
+    color: #111;
+}
+
+
+/* =========================================================
+   RESUMEN
+   ========================================================= */
+
+.resultado-resumen {
+    margin-top: 30px;
+}
+
+
+.resumen-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+
+.resumen-item {
+    padding: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f8f9fa;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+
+.resumen-item strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 28px;
+    color: #222;
+}
+
+
+/* =========================================================
+   RESULTADO GLOBAL
+   ========================================================= */
+
+.resultado-global {
+    margin-top: 20px;
+    padding: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+.resultado-global.pendiente {
+    background: #f5f5f5;
+    color: #666;
+}
+
+
+.resultado-global.cumple {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+}
+
+
+.resultado-global.no-cumple {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.acciones {
+    display: flex;
+    justify-content: center;
+    margin: 35px 0;
+}
+
+
+#generarInforme {
+    min-width: 260px;
+    padding: 15px 30px;
     border: none;
     border-radius: 7px;
-    background: #1769aa;
+    background: #1f2937;
     color: white;
+    cursor: pointer;
     font-size: 15px;
     font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s ease;
+    letter-spacing: 0.3px;
 }
 
-button:hover {
-    background: #12598f;
-    transform: translateY(-1px);
+
+#generarInforme:hover {
+    background: #111827;
 }
 
-button:disabled {
+
+#generarInforme:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    transform: none;
 }
 
 
@@ -230,52 +485,47 @@ button:disabled {
 .pantalla-progreso {
     display: none;
     position: fixed;
+    z-index: 1000;
     inset: 0;
-    z-index: 9999;
-    background: rgba(245, 247, 250, 0.97);
     align-items: center;
     justify-content: center;
     padding: 20px;
+    background: rgba(0, 0, 0, 0.55);
 }
 
-.pantalla-progreso.visible {
-    display: flex;
-}
 
 .progreso-card {
-    width: min(650px, 100%);
-    padding: 40px;
+    width: 100%;
+    max-width: 520px;
+    padding: 35px;
+    border-radius: 12px;
     background: white;
-    border: 1px solid #d8dee8;
-    border-radius: 15px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
     text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
+
 .progreso-icono {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1769aa;
-    color: white;
-    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #374151;
 }
+
 
 .progreso-spinner {
     width: 42px;
     height: 42px;
     margin: 0 auto 20px;
-    border: 5px solid #e5e7eb;
-    border-top-color: #1769aa;
+    border: 4px solid #e5e7eb;
+    border-top-color: #374151;
     border-radius: 50%;
-    animation: girar 0.9s linear infinite;
+    animation: girar 0.8s linear infinite;
 }
 
+
 @keyframes girar {
+
     from {
         transform: rotate(0deg);
     }
@@ -283,57 +533,61 @@ button:disabled {
     to {
         transform: rotate(360deg);
     }
+
 }
 
-#progresoTitulo {
+
+.progreso-card h2 {
     margin: 0 0 8px;
-    font-size: 23px;
+    color: #222;
 }
 
-#progresoSubtitulo {
-    margin: 0 0 20px;
-    color: #6b7280;
+
+.progreso-card p {
+    margin: 0;
+    color: #666;
 }
+
 
 .progreso-porcentaje {
-    margin-bottom: 25px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #1769aa;
+    margin: 20px 0;
+    font-size: 28px;
+    font-weight: 700;
 }
 
-
-/* =========================================================
-   PASOS DEL PROCESO
-   ========================================================= */
 
 .progreso-pasos {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 20px;
     text-align: left;
 }
+
 
 .progreso-paso {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 10px;
-    color: #6b7280;
     border-radius: 6px;
+    background: #f5f5f5;
+    color: #777;
+    font-size: 14px;
 }
 
+
 .progreso-paso-icono {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
     display: flex;
+    width: 25px;
+    height: 25px;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #e5e7eb;
-    font-size: 13px;
-    font-weight: bold;
+    background: #ddd;
+    color: #555;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 
@@ -342,29 +596,41 @@ button:disabled {
    ========================================================= */
 
 .visor-pdf {
-    margin-bottom: 30px;
-}
-
-#visorPDF {
     display: none;
 }
 
-#visorPDF.visible {
-    display: block;
-}
 
 #pdfFrame {
+    display: block;
     width: 100%;
     height: 750px;
     margin-top: 20px;
-    border: 1px solid #cbd2da;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    background: #f4f6f8;
+    background: #f5f5f5;
 }
 
+
 .acciones-pdf {
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
-    text-align: center;
+}
+
+
+#descargarPDF {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    background: #1f2937;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+
+#descargarPDF:hover {
+    background: #111827;
 }
 
 
@@ -373,16 +639,13 @@ button:disabled {
    ========================================================= */
 
 footer {
-    width: min(1100px, calc(100% - 40px));
-    margin: 40px auto 0;
-    padding: 25px 0 35px;
+    margin-top: 45px;
+    padding-top: 25px;
+    border-top: 1px solid #ddd;
     text-align: center;
-    color: #6b7280;
+    color: #777;
     font-size: 13px;
-}
-
-footer p {
-    margin: 5px 0;
+    line-height: 1.5;
 }
 
 
@@ -390,30 +653,75 @@ footer p {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
+
+    .app {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
 
     .cabecera {
-        padding: 30px 20px;
+        margin-left: -12px;
+        margin-right: -12px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
+
 
     .cabecera h1 {
-        font-size: 25px;
+        font-size: 24px;
     }
 
-    .cabecera p {
-        font-size: 15px;
-    }
 
     .tarjeta {
-        padding: 20px;
+        padding: 18px;
     }
 
-    .progreso-card {
-        padding: 25px;
+
+    .resumen-grid {
+        grid-template-columns: 1fr;
     }
+
 
     #pdfFrame {
         height: 600px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .cabecera {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+
+
+    .cabecera h1 {
+        font-size: 21px;
+    }
+
+
+    .cabecera p {
+        font-size: 14px;
+    }
+
+
+    .tarjeta h2 {
+        font-size: 18px;
+    }
+
+
+    #generarInforme {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .progreso-card {
+        padding: 25px 18px;
     }
 
 }
