@@ -1084,12 +1084,14 @@ async function generarInforme() {
     console.log("INICIANDO GENERACIÓN DEL INFORME");
     console.log("========================================");
 
+
     // =====================================================
     // EXPEDIENTE ACTUAL
     // =====================================================
 
     const numeroExpediente =
         localStorage.getItem("expedienteActual");
+
 
     if (!numeroExpediente) {
 
@@ -1136,6 +1138,7 @@ async function generarInforme() {
     // =====================================================
 
     mostrarEstadoGeneracionPDF();
+
 
     actualizarProgresoInforme(
         5,
@@ -1444,9 +1447,11 @@ async function generarInforme() {
             "========================================"
         );
 
+
         console.log(
-            "INICIANDO BUSYTÉX"
+            "INICIANDO BUSYTEX"
         );
+
 
         console.log(
             "========================================"
@@ -1457,8 +1462,19 @@ async function generarInforme() {
         // CONFIGURACIÓN
         // -------------------------------------------------
 
+        /*
+         * Assets oficiales de BusyTeX 1.2.X.
+         *
+         * Esta versión es compatible con:
+         *
+         * texlyre-busytex@1.2.3
+         *
+         * No se descargan al repositorio.
+         * Se cargan directamente desde GitHub Releases.
+         */
+
         const basePath =
-            "/core/busytex";
+            "https://github.com/TeXlyre/texlyre-busytex-build/releases/download/build_wasm_d7f4e922a0b3d72ba85dd528ff0263caeebd68fb_28704779867_1";
 
 
         const paquetes = [
@@ -1486,7 +1502,7 @@ async function generarInforme() {
 
 
         console.log(
-            "Paquetes locales:",
+            "Paquetes remotos:",
             paquetes
         );
 
@@ -1918,7 +1934,7 @@ async function generarInforme() {
 
 
         console.log(
-            "RESULTADO BUSYTÉX"
+            "RESULTADO BUSYTEX"
         );
 
 
