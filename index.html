@@ -10,7 +10,9 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Demo - Automatización de documentación técnica</title>
+    <title>
+        Demo - Automatización de documentación técnica
+    </title>
 
     <link
         rel="stylesheet"
@@ -24,9 +26,10 @@
 
     <main class="app">
 
-        <!-- =========================================
+
+        <!-- =====================================================
              CABECERA
-             ========================================= -->
+             ===================================================== -->
 
         <header class="cabecera">
 
@@ -45,9 +48,9 @@
         </header>
 
 
-        <!-- =========================================
+        <!-- =====================================================
              AVISO DE DEMO
-             ========================================= -->
+             ===================================================== -->
 
         <section class="aviso-demo">
 
@@ -65,9 +68,9 @@
         </section>
 
 
-        <!-- =========================================
+        <!-- =====================================================
              INTRODUCCIÓN
-             ========================================= -->
+             ===================================================== -->
 
         <section class="tarjeta">
 
@@ -76,54 +79,48 @@
             </h2>
 
             <p>
-                Introduce los datos del ejemplo y la aplicación
-                realizará automáticamente los cálculos y generará
-                la documentación técnica correspondiente.
+                Introduce los datos del ejemplo. La aplicación
+                calcula automáticamente los límites acústicos,
+                determina el cumplimiento y genera la
+                documentación técnica correspondiente.
             </p>
 
         </section>
 
 
-        <!-- =========================================
-             IDENTIFICACIÓN
-             ========================================= -->
-
-        <section
-            id="identificacion"
-            class="tarjeta"
-        >
-
-            <h2>
-                Identificación
-            </h2>
-
-            <label for="nombre">
-                Nombre
-            </label>
-
-            <input
-                type="text"
-                id="nombre"
-                placeholder="Nombre y apellidos"
-                autocomplete="name"
-            >
-
-        </section>
-
-
-        <!-- =========================================
+        <!-- =====================================================
              DATOS DEL INFORME
-             ========================================= -->
+             ===================================================== -->
 
         <section
-            id="datosInforme"
             class="tarjeta"
+            id="datosInforme"
         >
 
             <h2>
                 Datos del informe
             </h2>
 
+
+            <!-- NOMBRE -->
+
+            <div class="campo">
+
+                <label for="nombre">
+                    Nombre
+                </label>
+
+                <input
+                    id="nombre"
+                    type="text"
+                    value="Antonio Jesús"
+                    placeholder="Nombre y apellidos"
+                >
+
+            </div>
+
+
+            <!-- FECHA -->
 
             <div class="campo">
 
@@ -132,12 +129,14 @@
                 </label>
 
                 <input
-                    type="date"
                     id="fecha"
+                    type="date"
                 >
 
             </div>
 
+
+            <!-- OBRA -->
 
             <div class="campo">
 
@@ -146,13 +145,16 @@
                 </label>
 
                 <input
-                    type="text"
                     id="obra"
+                    type="text"
+                    value="20 viviendas Antequera"
                     placeholder="Ejemplo de obra"
                 >
 
             </div>
 
+
+            <!-- PETICIONARIO -->
 
             <div class="campo">
 
@@ -161,13 +163,16 @@
                 </label>
 
                 <input
-                    type="text"
                     id="peticionario"
+                    type="text"
+                    value="Antonio"
                     placeholder="Nombre del peticionario"
                 >
 
             </div>
 
+
+            <!-- EXPEDIENTE -->
 
             <div class="campo">
 
@@ -176,177 +181,313 @@
                 </label>
 
                 <input
-                    type="text"
                     id="expediente"
+                    type="text"
+                    value="Prueba 1"
                     placeholder="EXP-2026-001"
                 >
 
             </div>
 
 
+            <!-- LOCALIZACIÓN -->
+
+            <div class="campo">
+
+                <label for="localizacion">
+                    Localización
+                </label>
+
+                <input
+                    id="localizacion"
+                    type="text"
+                    value="Málaga"
+                    placeholder="Dirección o localización"
+                >
+
+            </div>
+
+
+            <!-- FECHA DE VISITA -->
+
+            <div class="campo">
+
+                <label for="fechas">
+                    Fecha de visita
+                </label>
+
+
+                <div id="fechas">
+
+                    <div class="fecha">
+
+                        <input
+                            type="date"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="boton-secundario"
+                    onclick="anadirFecha()"
+                >
+                    + Añadir otra fecha de visita
+                </button>
+
+            </div>
+
         </section>
 
 
-        <!-- =========================================
-             ENSAYO ACÚSTICO
-             ========================================= -->
+        <!-- =====================================================
+             MEDICIONES INTERIORES
+             ===================================================== -->
 
-        <section
-            id="ensayoAcustico"
-            class="tarjeta"
-        >
+        <section class="tarjeta">
 
             <h2>
-                Ensayo acústico
+                Mediciones interiores
+            </h2>
+
+            <p class="medidas-intro">
+
+                Añade todas las mediciones interiores necesarias.
+                El límite y el cumplimiento se calculan
+                automáticamente.
+
+            </p>
+
+
+            <div class="tabla-contenedor">
+
+                <table id="tablaInterior">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Instalación
+                            </th>
+
+                            <th>
+                                Vivienda
+                            </th>
+
+                            <th>
+                                Estancia
+                            </th>
+
+                            <th>
+                                Periodo
+                            </th>
+
+                            <th>
+                                Nivel medido
+                            </th>
+
+                            <th>
+                                Límite
+                            </th>
+
+                            <th>
+                                Resultado
+                            </th>
+
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="boton-secundario"
+                onclick="anadirMedidaInterior()"
+            >
+                + Añadir medición interior
+            </button>
+
+        </section>
+
+
+        <!-- =====================================================
+             MEDICIONES EXTERIORES
+             ===================================================== -->
+
+        <section class="tarjeta">
+
+            <h2>
+                Mediciones exteriores
+            </h2>
+
+            <p class="medidas-intro">
+
+                El límite exterior aplica el incremento de
+                +5 dB indicado por la lógica de la demo.
+
+            </p>
+
+
+            <div class="tabla-contenedor">
+
+                <table id="tablaExterior">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Instalación
+                            </th>
+
+                            <th>
+                                Vivienda
+                            </th>
+
+                            <th>
+                                Zona exterior
+                            </th>
+
+                            <th>
+                                Periodo
+                            </th>
+
+                            <th>
+                                Nivel medido
+                            </th>
+
+                            <th>
+                                Límite
+                            </th>
+
+                            <th>
+                                Resultado
+                            </th>
+
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="boton-secundario"
+                onclick="anadirMedidaExterior()"
+            >
+                + Añadir medición exterior
+            </button>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESUMEN
+             ===================================================== -->
+
+        <section class="tarjeta resultado-resumen">
+
+            <h2>
+                Resultado automático
             </h2>
 
 
-            <div class="campo">
-
-                <label for="tipoMedida">
-                    Tipo de medición
-                </label>
-
-                <select id="tipoMedida">
-
-                    <option value="">
-                        Seleccionar
-                    </option>
-
-                    <option value="interior">
-                        Medición interior
-                    </option>
-
-                    <option value="exterior">
-                        Medición exterior
-                    </option>
-
-                </select>
-
-            </div>
+            <div class="resumen-grid">
 
 
-            <div class="campo">
+                <div class="resumen-item">
 
-                <label for="estancia">
-                    Estancia / zona
-                </label>
+                    <strong id="totalMedidas">
+                        0
+                    </strong>
 
-                <select id="estancia">
-
-                    <option value="">
-                        Seleccionar
-                    </option>
-
-                    <option value="salon">
-                        Salón
-                    </option>
-
-                    <option value="dormitorio">
-                        Dormitorio
-                    </option>
-
-                    <option value="oficina">
-                        Oficina
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="campo">
-
-                <label for="periodo">
-                    Periodo
-                </label>
-
-                <select id="periodo">
-
-                    <option value="">
-                        Seleccionar
-                    </option>
-
-                    <option value="diurno">
-                        Diurno
-                    </option>
-
-                    <option value="vespertino">
-                        Vespertino
-                    </option>
-
-                    <option value="nocturno">
-                        Nocturno
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="campo">
-
-                <label for="valorMedido">
-                    Nivel medido
-                </label>
-
-                <div class="campo-unidad">
-
-                    <input
-                        type="number"
-                        id="valorMedido"
-                        step="0.1"
-                        min="0"
-                        placeholder="Ej. 42.5"
-                    >
-
-                    <span>
-                        dB
-                    </span>
+                    Mediciones
 
                 </div>
+
+
+                <div class="resumen-item">
+
+                    <strong id="totalCumplen">
+                        0
+                    </strong>
+
+                    Cumplen
+
+                </div>
+
+
+                <div class="resumen-item">
+
+                    <strong id="totalNoCumplen">
+                        0
+                    </strong>
+
+                    No cumplen
+
+                </div>
+
 
             </div>
 
 
             <div
-                id="resultadoCalculo"
-                class="resultado"
+                id="resultadoGlobal"
+                class="resultado-global pendiente"
             >
 
-                <h3>
-                    Resultado
-                </h3>
-
-                <p id="resultadoTexto">
-                    Introduce los datos para obtener el resultado.
-                </p>
+                Introduce al menos una medición completa.
 
             </div>
-
 
         </section>
 
 
-        <!-- =========================================
-             BOTÓN GENERAR
-             ========================================= -->
+        <!-- =====================================================
+             BOTÓN GENERAR INFORME
+             ===================================================== -->
 
         <section class="acciones">
 
             <button
                 type="button"
                 id="generarInforme"
+                onclick="adaptarFormularioYGenerar()"
             >
+
                 GENERAR INFORME
+
             </button>
 
         </section>
 
 
-        <!-- =========================================
-             PROGRESO
-             ========================================= -->
+        <!-- =====================================================
+             PANTALLA DE PROGRESO
+             ===================================================== -->
 
         <section
             id="pantallaProgresoInforme"
@@ -355,29 +496,46 @@
 
             <div class="progreso-card">
 
+
                 <div class="progreso-icono">
+
                     PDF
+
                 </div>
 
-                <div class="progreso-spinner"></div>
+
+                <div class="progreso-spinner">
+                </div>
+
 
                 <h2 id="progresoTitulo">
+
                     Generando informe
+
                 </h2>
 
+
                 <p id="progresoSubtitulo">
+
                     Preparando el documento...
+
                 </p>
+
 
                 <div
                     id="progresoPorcentaje"
                     class="progreso-porcentaje"
                 >
+
                     0 %
+
                 </div>
 
 
+                <!-- PASOS -->
+
                 <div class="progreso-pasos">
+
 
                     <div
                         id="pasoDatos"
@@ -458,6 +616,7 @@
 
                     </div>
 
+
                 </div>
 
             </div>
@@ -465,9 +624,9 @@
         </section>
 
 
-        <!-- =========================================
+        <!-- =====================================================
              VISOR PDF
-             ========================================= -->
+             ===================================================== -->
 
         <section
             id="visorPDF"
@@ -478,9 +637,12 @@
                 Informe generado
             </h2>
 
+
             <p>
+
                 El informe técnico aparecerá aquí cuando
                 finalice la generación.
+
             </p>
 
 
@@ -497,7 +659,9 @@
                     type="button"
                     id="descargarPDF"
                 >
+
                     DESCARGAR PDF
+
                 </button>
 
             </div>
@@ -505,19 +669,24 @@
         </section>
 
 
-        <!-- =========================================
+        <!-- =====================================================
              PIE
-             ========================================= -->
+             ===================================================== -->
 
         <footer>
 
             <p>
+
                 Demo desarrollada como proyecto personal de
                 automatización de documentación técnica.
+
             </p>
 
+
             <p>
+
                 Versión demostrativa · No válida para uso profesional
+
             </p>
 
         </footer>
@@ -526,18 +695,18 @@
     </main>
 
 
-    <!-- =========================================
+    <!-- =========================================================
          JSZIP
-         ========================================= -->
+         ========================================================= -->
 
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
     ></script>
 
 
-    <!-- =========================================
-         BUSYTÉX
-         ========================================= -->
+    <!-- =========================================================
+         BUSYTEX
+         ========================================================= -->
 
     <script type="module">
 
@@ -545,14 +714,12 @@
             BusyTexRunner,
             PdfLatex
         }
-
         from
         "https://cdn.jsdelivr.net/npm/texlyre-busytex@1.2.3/+esm";
 
 
         window.BusyTexRunner =
             BusyTexRunner;
-
 
         window.PdfLatex =
             PdfLatex;
@@ -570,9 +737,9 @@
     </script>
 
 
-    <!-- =========================================
+    <!-- =========================================================
          JAVASCRIPT DE LA APLICACIÓN
-         ========================================= -->
+         ========================================================= -->
 
     <script
         src="script.js"
