@@ -10,704 +10,775 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Demo - Automatización de documentación técnica
-    </title>
+    <title>Engineer Tool</title>
+
+
+    <!-- =====================================
+         HOJA DE ESTILOS
+         ===================================== -->
 
     <link
         rel="stylesheet"
         href="style.css"
     >
 
+
+    <!-- =====================================
+         ESTILOS DEL SISTEMA DE GENERACIÓN
+         ===================================== -->
+
+    <style>
+
+        /* =================================================
+           PANTALLA DE PROGRESO
+           ================================================= */
+
+        #pantallaProgresoInforme {
+
+            display: none !important;
+
+            position: fixed !important;
+
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            left: 0 !important;
+
+            width: 100vw !important;
+            height: 100vh !important;
+
+            z-index: 2147483647 !important;
+
+            background:
+                rgba(245, 247, 250, 0.98) !important;
+
+            align-items: center !important;
+            justify-content: center !important;
+
+            box-sizing: border-box !important;
+
+        }
+
+
+        /* =================================================
+           CUANDO ESTÁ ACTIVO
+           ================================================= */
+
+        #pantallaProgresoInforme.visible {
+
+            display: flex !important;
+
+        }
+
+
+        /* =================================================
+           TARJETA
+           ================================================= */
+
+        .progreso-card {
+
+            width: calc(100% - 40px);
+
+            max-width: 650px;
+
+            padding: 45px;
+
+            box-sizing: border-box;
+
+            background: #ffffff;
+
+            border:
+                1px solid #d8dee8;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.18);
+
+            text-align: center;
+
+        }
+
+
+        /* =================================================
+           ICONO
+           ================================================= */
+
+        .progreso-icono {
+
+            width: 75px;
+
+            height: 75px;
+
+            margin:
+                0 auto 20px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #1769aa;
+
+            color:
+                #ffffff;
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =================================================
+           SPINNER
+           ================================================= */
+
+        .progreso-spinner {
+
+            width: 45px;
+
+            height: 45px;
+
+            margin:
+                0 auto 25px;
+
+            border:
+                5px solid #e5e7eb;
+
+            border-top-color:
+                #1769aa;
+
+            border-radius: 50%;
+
+            animation:
+                engineerToolSpinner
+                0.9s linear infinite;
+
+        }
+
+
+        @keyframes engineerToolSpinner {
+
+            from {
+
+                transform:
+                    rotate(0deg);
+
+            }
+
+            to {
+
+                transform:
+                    rotate(360deg);
+
+            }
+
+        }
+
+
+        /* =================================================
+           TÍTULO
+           ================================================= */
+
+        #progresoTitulo {
+
+            margin:
+                0 0 10px;
+
+            color:
+                #1f2937;
+
+            font-size:
+                25px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        /* =================================================
+           SUBTÍTULO
+           ================================================= */
+
+        #progresoSubtitulo {
+
+            margin:
+                0 0 25px;
+
+            min-height:
+                22px;
+
+            color:
+                #64748b;
+
+            font-size:
+                15px;
+
+        }
+
+
+        /* =================================================
+           BARRA
+           ================================================= */
+
+        .progreso-barra-contenedor {
+
+            width:
+                100%;
+
+            height:
+                12px;
+
+            margin-top:
+                20px;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                20px;
+
+            background:
+                #e5e7eb;
+
+        }
+
+
+        #progresoBarra {
+
+            width:
+                0%;
+
+            height:
+                100%;
+
+            border-radius:
+                20px;
+
+            background:
+                #1769aa;
+
+            transition:
+                width 0.5s ease;
+
+        }
+
+
+        /* =================================================
+           PORCENTAJE
+           ================================================= */
+
+        #progresoPorcentaje {
+
+            margin-top:
+                10px;
+
+            color:
+                #1769aa;
+
+            font-size:
+                14px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        /* =================================================
+           LISTA DE PASOS
+           ================================================= */
+
+        .progreso-pasos {
+
+            margin-top:
+                30px;
+
+            padding-top:
+                20px;
+
+            border-top:
+                1px solid #e5e7eb;
+
+            text-align:
+                left;
+
+        }
+
+
+        .progreso-paso {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            padding:
+                8px 0;
+
+            color:
+                #9ca3af;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .progreso-paso.activo {
+
+            color:
+                #1769aa;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .progreso-paso.completado {
+
+            color:
+                #16a34a;
+
+        }
+
+
+        .progreso-paso-icono {
+
+            width:
+                25px;
+
+            height:
+                25px;
+
+            min-width:
+                25px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50%;
+
+            background:
+                #e5e7eb;
+
+            font-size:
+                12px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .progreso-paso.activo
+        .progreso-paso-icono {
+
+            background:
+                #dbeafe;
+
+            color:
+                #1769aa;
+
+        }
+
+
+        .progreso-paso.completado
+        .progreso-paso-icono {
+
+            background:
+                #dcfce7;
+
+            color:
+                #16a34a;
+
+        }
+
+
+        /* =================================================
+           DETALLE
+           ================================================= */
+
+        #progresoDetalle {
+
+            margin-top:
+                20px;
+
+            padding:
+                12px 15px;
+
+            border-radius:
+                8px;
+
+            background:
+                #f8fafc;
+
+            color:
+                #64748b;
+
+            font-family:
+                monospace;
+
+            font-size:
+                12px;
+
+            text-align:
+                left;
+
+        }
+
+
+        /* =================================================
+           VISOR PDF
+           ================================================= */
+
+        #visorPDF {
+
+            display:
+                none;
+
+            width:
+                100%;
+
+            margin-top:
+                40px;
+
+            padding:
+                25px;
+
+            box-sizing:
+                border-box;
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid #d0d0d0;
+
+            border-radius:
+                8px;
+
+        }
+
+
+        #pdfFrame {
+
+            display:
+                block;
+
+            width:
+                100%;
+
+            height:
+                800px;
+
+            border:
+                1px solid #cccccc;
+
+            border-radius:
+                6px;
+
+            background:
+                #ffffff;
+
+        }
+
+
+        #descargarPDF {
+
+            padding:
+                12px 25px;
+
+            cursor:
+                pointer;
+
+            border:
+                none;
+
+            border-radius:
+                5px;
+
+            background:
+                #1769aa;
+
+            color:
+                #ffffff;
+
+            font-size:
+                14px;
+
+            font-weight:
+                bold;
+
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
-    <main class="app">
 
+    <!-- =====================================
+         PANTALLA DE PROGRESO
+         ===================================== -->
 
-        <!-- =====================================================
-             CABECERA
-             ===================================================== -->
+    <div
+        id="pantallaProgresoInforme"
+    >
 
-        <header class="cabecera">
-
-            <div class="cabecera-contenido">
-
-                <h1>
-                    Automatización de documentación técnica
-                </h1>
-
-                <p>
-                    Demo de generación automática de informes técnicos
-                </p>
-
-            </div>
-
-        </header>
-
-
-        <!-- =====================================================
-             AVISO DE DEMO
-             ===================================================== -->
-
-        <section class="aviso-demo">
-
-            <strong>
-                DEMO · VERSIÓN DE PRUEBA
-            </strong>
-
-            <p>
-
-                Esta aplicación es una demostración de carácter
-                exclusivamente académico y experimental.
-
-                Los informes generados no son válidos para uso
-                profesional ni administrativo.
-
-            </p>
-
-        </section>
-
-
-        <!-- =====================================================
-             INTRODUCCIÓN
-             ===================================================== -->
-
-        <section class="tarjeta">
-
-            <h2>
-                Generación de informe técnico
-            </h2>
-
-            <p>
-
-                Introduce los datos del ejemplo. La aplicación
-                calcula automáticamente los límites acústicos,
-                determina el cumplimiento y genera la
-                documentación técnica correspondiente.
-
-            </p>
-
-        </section>
-
-
-        <!-- =====================================================
-             DATOS DEL INFORME
-             ===================================================== -->
-
-        <section
-            class="tarjeta"
-            id="datosInforme"
+        <div
+            class="progreso-card"
         >
 
-            <h2>
-                Datos del informe
+            <div
+                class="progreso-icono"
+            >
+                ET
+            </div>
+
+
+            <div
+                class="progreso-spinner"
+            ></div>
+
+
+            <h2
+                id="progresoTitulo"
+            >
+                Generando informe
             </h2>
 
 
-            <!-- NOMBRE -->
-
-            <div class="campo">
-
-                <label for="nombre">
-                    Nombre
-                </label>
-
-                <input
-                    id="nombre"
-                    type="text"
-                    value="Antonio Jesús"
-                    placeholder="Nombre y apellidos"
-                >
-
-            </div>
-
-
-            <!-- FECHA -->
-
-            <div class="campo">
-
-                <label for="fecha">
-                    Fecha
-                </label>
-
-                <input
-                    id="fecha"
-                    type="date"
-                >
-
-            </div>
-
-
-            <!-- OBRA -->
-
-            <div class="campo">
-
-                <label for="obra">
-                    Obra
-                </label>
-
-                <input
-                    id="obra"
-                    type="text"
-                    value="20 viviendas Antequera"
-                    placeholder="Ejemplo de obra"
-                >
-
-            </div>
-
-
-            <!-- PETICIONARIO -->
-
-            <div class="campo">
-
-                <label for="peticionario">
-                    Peticionario
-                </label>
-
-                <input
-                    id="peticionario"
-                    type="text"
-                    value="Antonio"
-                    placeholder="Nombre del peticionario"
-                >
-
-            </div>
-
-
-            <!-- EXPEDIENTE -->
-
-            <div class="campo">
-
-                <label for="expediente">
-                    Nº de expediente
-                </label>
-
-                <input
-                    id="expediente"
-                    type="text"
-                    value="Prueba 1"
-                    placeholder="EXP-2026-001"
-                >
-
-            </div>
-
-
-            <!-- LOCALIZACIÓN -->
-
-            <div class="campo">
-
-                <label for="localizacion">
-                    Localización
-                </label>
-
-                <input
-                    id="localizacion"
-                    type="text"
-                    value="Málaga"
-                    placeholder="Dirección o localización"
-                >
-
-            </div>
-
-
-            <!-- FECHA DE VISITA -->
-
-            <div class="campo">
-
-                <label for="fechas">
-                    Fecha de visita
-                </label>
-
-
-                <div id="fechas">
-
-                    <div class="fecha">
-
-                        <input
-                            type="date"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="boton-secundario"
-                    onclick="anadirFecha()"
-                >
-
-                    + Añadir otra fecha de visita
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             MEDICIONES INTERIORES
-             ===================================================== -->
-
-        <section class="tarjeta">
-
-            <h2>
-                Mediciones interiores
-            </h2>
-
-
-            <p class="medidas-intro">
-
-                Añade todas las mediciones interiores necesarias.
-                El límite y el cumplimiento se calculan
-                automáticamente.
-
+            <p
+                id="progresoSubtitulo"
+            >
+                Preparando el documento...
             </p>
 
 
-            <div class="tabla-contenedor">
-
-                <table id="tablaInterior">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Instalación
-                            </th>
-
-                            <th>
-                                Vivienda
-                            </th>
-
-                            <th>
-                                Estancia
-                            </th>
-
-                            <th>
-                                Periodo
-                            </th>
-
-                            <th>
-                                Nivel medido
-                            </th>
-
-                            <th>
-                                Límite
-                            </th>
-
-                            <th>
-                                Resultado
-                            </th>
-
-                            <th></th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="boton-secundario"
-                onclick="anadirMedidaInterior()"
+            <div
+                class="progreso-barra-contenedor"
             >
 
-                + Añadir medición interior
-
-            </button>
-
-        </section>
-
-
-        <!-- =====================================================
-             MEDICIONES EXTERIORES
-             ===================================================== -->
-
-        <section class="tarjeta">
-
-            <h2>
-                Mediciones exteriores
-            </h2>
-
-
-            <p class="medidas-intro">
-
-                El límite exterior aplica el incremento de
-                +5 dB indicado por la lógica de la demo.
-
-            </p>
-
-
-            <div class="tabla-contenedor">
-
-                <table id="tablaExterior">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Instalación
-                            </th>
-
-                            <th>
-                                Vivienda
-                            </th>
-
-                            <th>
-                                Zona exterior
-                            </th>
-
-                            <th>
-                                Periodo
-                            </th>
-
-                            <th>
-                                Nivel medido
-                            </th>
-
-                            <th>
-                                Límite
-                            </th>
-
-                            <th>
-                                Resultado
-                            </th>
-
-                            <th></th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="boton-secundario"
-                onclick="anadirMedidaExterior()"
-            >
-
-                + Añadir medición exterior
-
-            </button>
-
-        </section>
-
-
-        <!-- =====================================================
-             INFORMACIÓN SOBRE IMÁGENES
-             
-             La selección real de imágenes se realiza mediante
-             mostrarImagenes() en script.js.
-             
-             Esta sección no contiene los inputs de archivo para
-             evitar duplicar los elementos que crea dinámicamente
-             el JavaScript.
-             ===================================================== -->
-
-        <section
-            class="tarjeta"
-            id="imagenesInforme"
-        >
-
-            <h2>
-                Imágenes del informe
-            </h2>
-
-            <p>
-
-                Antes de generar el informe podrás incorporar
-                las imágenes de portada y de localización.
-
-            </p>
-
-            <p>
-
-                <strong>
-                    Imagen de portada:
-                </strong>
-
-                opcional. Si no seleccionas ninguna imagen,
-                se conservará la portada predeterminada
-                incluida en la plantilla.
-
-            </p>
-
-            <p>
-
-                <strong>
-                    Imagen de localización:
-                </strong>
-
-                obligatoria para completar el informe.
-
-            </p>
-
-            <div class="acciones">
-
-                <button
-                    type="button"
-                    class="boton-secundario"
-                    onclick="siguienteDesdeMedidas()"
-                >
-
-                    CONTINUAR A IMÁGENES →
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             RESUMEN
-             ===================================================== -->
-
-        <section class="tarjeta resultado-resumen">
-
-            <h2>
-                Resultado automático
-            </h2>
-
-
-            <div class="resumen-grid">
-
-
-                <div class="resumen-item">
-
-                    <strong id="totalMedidas">
-                        0
-                    </strong>
-
-                    Mediciones
-
-                </div>
-
-
-                <div class="resumen-item">
-
-                    <strong id="totalCumplen">
-                        0
-                    </strong>
-
-                    Cumplen
-
-                </div>
-
-
-                <div class="resumen-item">
-
-                    <strong id="totalNoCumplen">
-                        0
-                    </strong>
-
-                    No cumplen
-
-                </div>
-
+                <div
+                    id="progresoBarra"
+                ></div>
 
             </div>
 
 
             <div
-                id="resultadoGlobal"
-                class="resultado-global pendiente"
+                id="progresoPorcentaje"
             >
-
-                Introduce al menos una medición completa.
-
+                0 %
             </div>
 
-        </section>
 
-
-        <!-- =====================================================
-             BOTÓN GENERAR INFORME
-             ===================================================== -->
-
-        <section class="acciones">
-
-            <button
-                type="button"
-                id="generarInforme"
-                onclick="adaptarFormularioYGenerar()"
+            <div
+                class="progreso-pasos"
             >
 
-                GENERAR INFORME
+                <div
+                    id="pasoDatos"
+                    class="progreso-paso"
+                >
 
-            </button>
+                    <div
+                        class="progreso-paso-icono"
+                    >
+                        1
+                    </div>
 
-        </section>
+                    <span>
+                        Preparando datos del expediente
+                    </span>
 
-
-        <!-- =====================================================
-             PANTALLA DE PROGRESO
-             ===================================================== -->
-
-        <section
-            id="pantallaProgresoInforme"
-            class="pantalla-progreso"
-        >
-
-            <div class="progreso-card">
-
-
-                <div class="progreso-icono">
-                    PDF
                 </div>
-
-
-                <div class="progreso-spinner">
-                </div>
-
-
-                <h2 id="progresoTitulo">
-
-                    Generando informe
-
-                </h2>
-
-
-                <p id="progresoSubtitulo">
-
-                    Preparando el documento...
-
-                </p>
 
 
                 <div
-                    id="progresoPorcentaje"
-                    class="progreso-porcentaje"
+                    id="pasoPlantilla"
+                    class="progreso-paso"
                 >
 
-                    0 %
+                    <div
+                        class="progreso-paso-icono"
+                    >
+                        2
+                    </div>
+
+                    <span>
+                        Cargando plantilla LaTeX
+                    </span>
 
                 </div>
 
 
-                <!-- PASOS -->
-
-                <div class="progreso-pasos">
-
-
-                    <div
-                        id="pasoDatos"
-                        class="progreso-paso"
-                    >
-
-                        <span class="progreso-paso-icono">
-                            1
-                        </span>
-
-                        <span>
-                            Preparando datos
-                        </span>
-
-                    </div>
-
+                <div
+                    id="pasoBusytex"
+                    class="progreso-paso"
+                >
 
                     <div
-                        id="pasoPlantilla"
-                        class="progreso-paso"
+                        class="progreso-paso-icono"
                     >
-
-                        <span class="progreso-paso-icono">
-                            2
-                        </span>
-
-                        <span>
-                            Cargando plantilla LaTeX
-                        </span>
-
+                        3
                     </div>
 
+                    <span>
+                        Inicializando motor LaTeX
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="pasoCompilacion"
+                    class="progreso-paso"
+                >
 
                     <div
-                        id="pasoBusytex"
-                        class="progreso-paso"
+                        class="progreso-paso-icono"
                     >
-
-                        <span class="progreso-paso-icono">
-                            3
-                        </span>
-
-                        <span>
-                            Inicializando motor LaTeX
-                        </span>
-
+                        4
                     </div>
 
+                    <span>
+                        Compilando informe
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="pasoFinal"
+                    class="progreso-paso"
+                >
 
                     <div
-                        id="pasoCompilacion"
-                        class="progreso-paso"
+                        class="progreso-paso-icono"
                     >
-
-                        <span class="progreso-paso-icono">
-                            4
-                        </span>
-
-                        <span>
-                            Compilando documento
-                        </span>
-
+                        5
                     </div>
 
-
-                    <div
-                        id="pasoPDF"
-                        class="progreso-paso"
-                    >
-
-                        <span class="progreso-paso-icono">
-                            5
-                        </span>
-
-                        <span>
-                            Preparando PDF
-                        </span>
-
-                    </div>
-
+                    <span>
+                        Preparando PDF final
+                    </span>
 
                 </div>
 
             </div>
 
-        </section>
+
+            <div
+                id="progresoDetalle"
+            >
+                Esperando...
+            </div>
+
+        </div>
+
+    </div>
 
 
-        <!-- =====================================================
+    <!-- =====================================
+         APLICACIÓN
+         ===================================== -->
+
+    <div
+        class="app"
+    >
+
+
+        <!-- =================================
+             CABECERA
+             ================================= -->
+
+        <h1>
+            ENGINEER TOOL
+        </h1>
+
+
+        <p>
+            Herramientas digitales de ingeniería
+        </p>
+
+
+        <!-- =================================
+             IDENTIFICACIÓN
+             ================================= -->
+
+        <div
+            class="login-box"
+        >
+
+            <h2>
+                Identificación
+            </h2>
+
+
+            <label
+                for="nombre"
+            >
+                Introduce tu nombre
+            </label>
+
+
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre y apellidos"
+                autocomplete="name"
+            >
+
+
+            <button
+                type="button"
+                onclick="continuar()"
+            >
+                CONTINUAR
+            </button>
+
+
+            <p
+                class="info"
+            >
+
+                Tu nombre aparecerá como autor en los
+                documentos generados durante esta sesión.
+
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
              VISOR PDF
-             ===================================================== -->
+             ===================================== -->
 
-        <section
+        <div
             id="visorPDF"
-            class="tarjeta visor-pdf"
         >
 
             <h2>
@@ -716,74 +787,50 @@
 
 
             <p>
-
-                El informe técnico aparecerá aquí cuando
-                finalice la generación.
-
+                El informe técnico se ha generado correctamente.
             </p>
 
 
             <iframe
                 id="pdfFrame"
                 title="Vista previa del informe PDF"
+            ></iframe>
+
+
+            <div
+                style="
+                    margin-top:20px;
+                    text-align:center;
+                "
             >
-            </iframe>
-
-
-            <div class="acciones-pdf">
 
                 <button
                     type="button"
                     id="descargarPDF"
                 >
-
                     DESCARGAR PDF
-
                 </button>
 
             </div>
 
-        </section>
+        </div>
 
 
-        <!-- =====================================================
-             PIE
-             ===================================================== -->
-
-        <footer>
-
-            <p>
-
-                Demo desarrollada como proyecto personal de
-                automatización de documentación técnica.
-
-            </p>
+    </div>
 
 
-            <p>
-
-                Versión demostrativa · No válida para uso profesional
-
-            </p>
-
-        </footer>
-
-
-    </main>
-
-
-    <!-- =========================================================
+    <!-- =====================================
          JSZIP
-         ========================================================= -->
+         ===================================== -->
 
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
     ></script>
 
 
-    <!-- =========================================================
-         BUSYTEX
-         ========================================================= -->
+    <!-- =====================================
+         BUSYTÉX 1.2.3
+         ===================================== -->
 
     <script type="module">
 
@@ -798,25 +845,280 @@
         window.BusyTexRunner =
             BusyTexRunner;
 
+
         window.PdfLatex =
             PdfLatex;
 
 
         console.log(
-            "[Demo] BusyTeX cargado correctamente."
+            "[Engineer Tool] BusyTexRunner cargado correctamente."
         );
 
 
         console.log(
-            "[Demo] PdfLatex cargado correctamente."
+            "[Engineer Tool] PdfLatex cargado correctamente."
         );
 
     </script>
 
 
-    <!-- =========================================================
-         JAVASCRIPT DE LA APLICACIÓN
-         ========================================================= -->
+    <!-- =====================================
+         FUNCIONES DEL PROGRESO
+         ===================================== -->
+
+    <script>
+
+        /*
+         * Mostrar pantalla
+         */
+
+        window.mostrarProgresoInforme =
+            function () {
+
+                const pantalla =
+                    document.getElementById(
+                        "pantallaProgresoInforme"
+                    );
+
+
+                if (!pantalla) {
+
+                    console.error(
+                        "[Engineer Tool] No existe pantallaProgresoInforme."
+                    );
+
+                    return;
+
+                }
+
+
+                pantalla.classList.add(
+                    "visible"
+                );
+
+
+                pantalla.style.setProperty(
+                    "display",
+                    "flex",
+                    "important"
+                );
+
+
+                actualizarProgresoInforme(
+                    5,
+                    "Generando informe",
+                    "Preparando el documento...",
+                    "Iniciando generación del informe..."
+                );
+
+            };
+
+
+        /*
+         * Ocultar pantalla
+         */
+
+        window.ocultarProgresoInforme =
+            function () {
+
+                const pantalla =
+                    document.getElementById(
+                        "pantallaProgresoInforme"
+                    );
+
+
+                if (!pantalla) {
+
+                    return;
+
+                }
+
+
+                pantalla.classList.remove(
+                    "visible"
+                );
+
+
+                pantalla.style.setProperty(
+                    "display",
+                    "none",
+                    "important"
+                );
+
+            };
+
+
+        /*
+         * Actualizar datos
+         */
+
+        window.actualizarProgresoInforme =
+            function (
+                porcentaje,
+                titulo,
+                subtitulo,
+                detalle
+            ) {
+
+                const barra =
+                    document.getElementById(
+                        "progresoBarra"
+                    );
+
+
+                const porcentajeElemento =
+                    document.getElementById(
+                        "progresoPorcentaje"
+                    );
+
+
+                const tituloElemento =
+                    document.getElementById(
+                        "progresoTitulo"
+                    );
+
+
+                const subtituloElemento =
+                    document.getElementById(
+                        "progresoSubtitulo"
+                    );
+
+
+                const detalleElemento =
+                    document.getElementById(
+                        "progresoDetalle"
+                    );
+
+
+                if (barra) {
+
+                    barra.style.width =
+                        porcentaje + "%";
+
+                }
+
+
+                if (porcentajeElemento) {
+
+                    porcentajeElemento.textContent =
+                        porcentaje + " %";
+
+                }
+
+
+                if (tituloElemento) {
+
+                    tituloElemento.textContent =
+                        titulo;
+
+                }
+
+
+                if (subtituloElemento) {
+
+                    subtituloElemento.textContent =
+                        subtitulo;
+
+                }
+
+
+                if (detalleElemento) {
+
+                    detalleElemento.textContent =
+                        detalle;
+
+                }
+
+            };
+
+
+        /*
+         * Activar paso
+         */
+
+        window.activarPasoInforme =
+            function (
+                id
+            ) {
+
+                const elemento =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (!elemento) {
+
+                    return;
+
+                }
+
+
+                elemento.classList.add(
+                    "activo"
+                );
+
+            };
+
+
+        /*
+         * Completar paso
+         */
+
+        window.completarPasoInforme =
+            function (
+                id
+            ) {
+
+                const elemento =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (!elemento) {
+
+                    return;
+
+                }
+
+
+                elemento.classList.remove(
+                    "activo"
+                );
+
+
+                elemento.classList.add(
+                    "completado"
+                );
+
+
+                const icono =
+                    elemento.querySelector(
+                        ".progreso-paso-icono"
+                    );
+
+
+                if (icono) {
+
+                    icono.textContent =
+                        "✓";
+
+                }
+
+            };
+
+
+        console.log(
+            "[Engineer Tool] Sistema de progreso preparado."
+        );
+
+    </script>
+
+
+    <!-- =====================================
+         SCRIPT PRINCIPAL
+         ===================================== -->
 
     <script
         src="script.js"
