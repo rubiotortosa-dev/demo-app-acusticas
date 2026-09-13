@@ -59,10 +59,13 @@
             </strong>
 
             <p>
+
                 Esta aplicación es una demostración de carácter
                 exclusivamente académico y experimental.
+
                 Los informes generados no son válidos para uso
                 profesional ni administrativo.
+
             </p>
 
         </section>
@@ -79,10 +82,12 @@
             </h2>
 
             <p>
+
                 Introduce los datos del ejemplo. La aplicación
                 calcula automáticamente los límites acústicos,
                 determina el cumplimiento y genera la
                 documentación técnica correspondiente.
+
             </p>
 
         </section>
@@ -235,7 +240,9 @@
                     class="boton-secundario"
                     onclick="anadirFecha()"
                 >
+
                     + Añadir otra fecha de visita
+
                 </button>
 
             </div>
@@ -252,6 +259,7 @@
             <h2>
                 Mediciones interiores
             </h2>
+
 
             <p class="medidas-intro">
 
@@ -318,7 +326,9 @@
                 class="boton-secundario"
                 onclick="anadirMedidaInterior()"
             >
+
                 + Añadir medición interior
+
             </button>
 
         </section>
@@ -333,6 +343,7 @@
             <h2>
                 Mediciones exteriores
             </h2>
+
 
             <p class="medidas-intro">
 
@@ -398,8 +409,76 @@
                 class="boton-secundario"
                 onclick="anadirMedidaExterior()"
             >
+
                 + Añadir medición exterior
+
             </button>
+
+        </section>
+
+
+        <!-- =====================================================
+             INFORMACIÓN SOBRE IMÁGENES
+             
+             La selección real de imágenes se realiza mediante
+             mostrarImagenes() en script.js.
+             
+             Esta sección no contiene los inputs de archivo para
+             evitar duplicar los elementos que crea dinámicamente
+             el JavaScript.
+             ===================================================== -->
+
+        <section
+            class="tarjeta"
+            id="imagenesInforme"
+        >
+
+            <h2>
+                Imágenes del informe
+            </h2>
+
+            <p>
+
+                Antes de generar el informe podrás incorporar
+                las imágenes de portada y de localización.
+
+            </p>
+
+            <p>
+
+                <strong>
+                    Imagen de portada:
+                </strong>
+
+                opcional. Si no seleccionas ninguna imagen,
+                se conservará la portada predeterminada
+                incluida en la plantilla.
+
+            </p>
+
+            <p>
+
+                <strong>
+                    Imagen de localización:
+                </strong>
+
+                obligatoria para completar el informe.
+
+            </p>
+
+            <div class="acciones">
+
+                <button
+                    type="button"
+                    class="boton-secundario"
+                    onclick="siguienteDesdeMedidas()"
+                >
+
+                    CONTINUAR A IMÁGENES →
+
+                </button>
+
+            </div>
 
         </section>
 
@@ -498,9 +577,7 @@
 
 
                 <div class="progreso-icono">
-
                     PDF
-
                 </div>
 
 
