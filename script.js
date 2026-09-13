@@ -1084,12 +1084,16 @@ async function generarInforme() {
     console.log("INICIANDO GENERACIÓN DEL INFORME");
     console.log("========================================");
 
+
     // =====================================================
     // EXPEDIENTE ACTUAL
     // =====================================================
 
     const numeroExpediente =
-        localStorage.getItem("expedienteActual");
+        localStorage.getItem(
+            "expedienteActual"
+        );
+
 
     if (!numeroExpediente) {
 
@@ -1103,7 +1107,9 @@ async function generarInforme() {
 
     const expedientes =
         JSON.parse(
-            localStorage.getItem("expedientes")
+            localStorage.getItem(
+                "expedientes"
+            )
         ) || [];
 
 
@@ -1137,6 +1143,7 @@ async function generarInforme() {
 
     mostrarEstadoGeneracionPDF();
 
+
     actualizarProgresoInforme(
         5,
         "Preparando los datos del expediente..."
@@ -1144,19 +1151,114 @@ async function generarInforme() {
 
 
     // =====================================================
-    // DATOS
+    // DATOS DE LAS MEDICIONES
     // =====================================================
 
     const medidasInterior =
-        Array.isArray(expediente.medidasInterior)
+        Array.isArray(
+            expediente.medidasInterior
+        )
             ? expediente.medidasInterior
             : [];
 
 
     const medidasExterior =
-        Array.isArray(expediente.medidasExterior)
+        Array.isArray(
+            expediente.medidasExterior
+        )
             ? expediente.medidasExterior
             : [];
+
+
+    // =====================================================
+    // PREPARAR DATOS GENERALES PARA LATEX
+    // =====================================================
+
+    /*
+     * generarDatosTex() no trabaja directamente con
+     * expediente, sino con un objeto cuyos nombres de
+     * propiedades coinciden con los comandos LaTeX.
+     *
+     * Especialmente:
+     *
+     * expediente.peticionario
+     *          ↓
+     * datos.Peticionario
+     *          ↓
+     * \newcommand{\Peticionario}{...}
+     */
+
+    const datosGenerales = {
+
+        // Número de expediente
+        Nexpediente:
+            expediente.expediente || "",
+
+
+        // Nombre de la obra
+        Obra:
+            expediente.obra || "",
+
+
+        // PETICIONARIO
+        //
+        // Este es el dato que se introduce
+        // en el campo "Peticionario" de la aplicación.
+        Peticionario:
+            expediente.peticionario || "",
+
+
+        // Tipo de estudio
+        viviendasestudio:
+            expediente.tipo || "",
+
+
+        // Fechas de visita
+        fechasvisita:
+            expediente.fechasvisita ||
+            expediente.fechas ||
+            [],
+
+
+        // Localización
+        localizacion:
+            expediente.localizacion || "",
+
+
+        // Mediciones interiores
+        medidasInterior:
+            medidasInterior,
+
+
+        // Mediciones exteriores
+        medidasExterior:
+            medidasExterior,
+
+
+        // Imagen de portada
+        imagenPortada:
+            expediente.imagenPortada ||
+            null,
+
+
+        // Imagen de localización
+        imagenLocalizacion:
+            expediente.imagenLocalizacion ||
+            null
+
+    };
+
+
+    console.log(
+        "Datos generales para LaTeX:",
+        datosGenerales
+    );
+
+
+    console.log(
+        "Peticionario que se enviará a LaTeX:",
+        datosGenerales.Peticionario
+    );
 
 
     // =====================================================
@@ -1177,11 +1279,30 @@ async function generarInforme() {
 
     try {
 
+
+        // -------------------------------------------------
+        // DATOS GENERALES
+        // -------------------------------------------------
+
         datosTex =
             generarDatosTex(
-                expediente
+                datosGenerales
             );
 
+
+        console.log(
+            "Datos LaTeX generados:"
+        );
+
+
+        console.log(
+            datosTex
+        );
+
+
+        // -------------------------------------------------
+        // MEDICIONES INTERIORES
+        // -------------------------------------------------
 
         actualizarProgresoInforme(
             15,
@@ -1195,6 +1316,10 @@ async function generarInforme() {
             );
 
 
+        // -------------------------------------------------
+        // MEDICIONES EXTERIORES
+        // -------------------------------------------------
+
         actualizarProgresoInforme(
             20,
             "Generando mediciones exteriores..."
@@ -1207,6 +1332,10 @@ async function generarInforme() {
             );
 
 
+        // -------------------------------------------------
+        // RESULTADOS
+        // -------------------------------------------------
+
         actualizarProgresoInforme(
             25,
             "Generando tabla de resultados..."
@@ -1218,6 +1347,7 @@ async function generarInforme() {
                 medidasInterior,
                 medidasExterior
             );
+
 
     }
     catch (error) {
@@ -1322,11 +1452,19 @@ async function generarInforme() {
     );
 
 
+    // -----------------------------------------------------
+    // DATOS GENERALES
+    // -----------------------------------------------------
+
     zip.file(
         "00_Preambulo/03_Datos APP.tex",
         datosTex
     );
 
+
+    // -----------------------------------------------------
+    // MEDICIONES INTERIORES
+    // -----------------------------------------------------
 
     zip.file(
         "00_Preambulo/04_Mediciones Interiores.tex",
@@ -1334,11 +1472,19 @@ async function generarInforme() {
     );
 
 
+    // -----------------------------------------------------
+    // MEDICIONES EXTERIORES
+    // -----------------------------------------------------
+
     zip.file(
         "00_Preambulo/05_Mediciones Exteriores.tex",
         exterioresTex
     );
 
+
+    // -----------------------------------------------------
+    // RESULTADOS
+    // -----------------------------------------------------
 
     zip.file(
         "00_Preambulo/06_Resultados APP.tex",
@@ -1444,9 +1590,11 @@ async function generarInforme() {
             "========================================"
         );
 
+
         console.log(
             "INICIANDO BUSYTÉX"
         );
+
 
         console.log(
             "========================================"
@@ -1647,10 +1795,12 @@ async function generarInforme() {
         ) {
 
             if (
+
                 ruta
                     .replace(/\\/g, "/")
                     .toLowerCase() ===
                 "main.tex"
+
             ) {
 
                 mainTexPath =
@@ -1787,7 +1937,8 @@ async function generarInforme() {
         ) {
 
             if (
-                ruta === mainTexPath
+                ruta ===
+                mainTexPath
             ) {
 
                 continue;
@@ -1970,10 +2121,8 @@ async function generarInforme() {
         ) {
 
             throw new Error(
-
                 "La compilación terminó correctamente, " +
                 "pero BusyTeX no ha devuelto el PDF."
-
             );
 
         }
@@ -1991,16 +2140,13 @@ async function generarInforme() {
 
         const pdfBlob =
             new Blob(
-
                 [
                     resultado.pdf
                 ],
-
                 {
                     type:
                         "application/pdf"
                 }
-
             );
 
 
@@ -2043,6 +2189,7 @@ async function generarInforme() {
 
 
         // Pequeña pausa para que el usuario vea el 100 %
+
         await new Promise(
             resolve =>
                 setTimeout(
@@ -2078,6 +2225,7 @@ async function generarInforme() {
         console.log(
             "========================================"
         );
+
 
     }
     catch (error) {
