@@ -4876,16 +4876,23 @@ function mostrarImagenes(expediente = null) {
     if (!expediente) {
 
         const numeroExpediente =
-            localStorage.getItem("expedienteActual");
+            localStorage.getItem(
+                "expedienteActual"
+            );
 
         const expedientes =
             JSON.parse(
-                localStorage.getItem("expedientes")
+                localStorage.getItem(
+                    "expedientes"
+                )
             ) || [];
 
-        expediente = expedientes.find(
-            item => item.expediente === numeroExpediente
-        );
+        expediente =
+            expedientes.find(
+                item =>
+                    item.expediente ===
+                    numeroExpediente
+            );
     }
 
 
@@ -4895,7 +4902,9 @@ function mostrarImagenes(expediente = null) {
 
     if (!expediente) {
 
-        alert("No se ha encontrado el expediente.");
+        alert(
+            "No se ha encontrado el expediente."
+        );
 
         volverInicio();
 
@@ -4910,7 +4919,9 @@ function mostrarImagenes(expediente = null) {
 
 
     const nombreUsuario =
-        localStorage.getItem("nombreUsuario") || "";
+        localStorage.getItem(
+            "nombreUsuario"
+        ) || "";
 
 
     // =====================================
@@ -4925,7 +4936,9 @@ function mostrarImagenes(expediente = null) {
 
                 <div>
 
-                    <h1>ENGINEER TOOL</h1>
+                    <h1>
+                        ENGINEER TOOL
+                    </h1>
 
                     <p>
                         Imágenes del expediente
@@ -4957,11 +4970,16 @@ function mostrarImagenes(expediente = null) {
 
             <main class="formulario-expediente">
 
-                <h2>Imágenes</h2>
+                <h2>
+                    Imágenes
+                </h2>
+
 
                 <p class="descripcion-pantalla">
+
                     Añade las imágenes necesarias para
                     completar el informe.
+
                 </p>
 
 
@@ -4975,9 +4993,21 @@ function mostrarImagenes(expediente = null) {
                         Imagen de portada
                     </h3>
 
+
                     <div
                         class="zona-imagen"
                         id="zonaPortada"
+                        style="
+                            width: 100%;
+                            max-width: 650px;
+                            height: 360px;
+                            margin: 0 auto 15px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            overflow: hidden;
+                            box-sizing: border-box;
+                        "
                     >
 
                         <div
@@ -4998,7 +5028,16 @@ function mostrarImagenes(expediente = null) {
                         <img
                             id="previewPortada"
                             class="preview-imagen"
-                            style="display:none;"
+                            style="
+                                display: none;
+                                max-width: 100%;
+                                max-height: 340px;
+                                width: auto;
+                                height: auto;
+                                object-fit: contain;
+                                object-position: center;
+                                border-radius: 6px;
+                            "
                             alt="Vista previa de portada"
                         >
 
@@ -5009,11 +5048,13 @@ function mostrarImagenes(expediente = null) {
                         type="file"
                         id="imagenPortada"
                         accept="image/*"
-                        onchange="previsualizarImagen(
-                            this,
-                            'previewPortada',
-                            'mensajePortada'
-                        )"
+                        onchange="
+                            previsualizarImagen(
+                                this,
+                                'previewPortada',
+                                'mensajePortada'
+                            )
+                        "
                     >
 
                 </section>
@@ -5033,6 +5074,17 @@ function mostrarImagenes(expediente = null) {
                     <div
                         class="zona-imagen"
                         id="zonaLocalizacion"
+                        style="
+                            width: 100%;
+                            max-width: 650px;
+                            height: 360px;
+                            margin: 0 auto 15px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            overflow: hidden;
+                            box-sizing: border-box;
+                        "
                     >
 
                         <div
@@ -5053,7 +5105,16 @@ function mostrarImagenes(expediente = null) {
                         <img
                             id="previewLocalizacion"
                             class="preview-imagen"
-                            style="display:none;"
+                            style="
+                                display: none;
+                                max-width: 100%;
+                                max-height: 340px;
+                                width: auto;
+                                height: auto;
+                                object-fit: contain;
+                                object-position: center;
+                                border-radius: 6px;
+                            "
                             alt="Vista previa de localización"
                         >
 
@@ -5064,11 +5125,13 @@ function mostrarImagenes(expediente = null) {
                         type="file"
                         id="imagenLocalizacion"
                         accept="image/*"
-                        onchange="previsualizarImagen(
-                            this,
-                            'previewLocalizacion',
-                            'mensajeLocalizacion'
-                        )"
+                        onchange="
+                            previsualizarImagen(
+                                this,
+                                'previewLocalizacion',
+                                'mensajeLocalizacion'
+                            )
+                        "
                     >
 
                 </section>
@@ -5086,7 +5149,9 @@ function mostrarImagenes(expediente = null) {
                         class="boton-anterior"
                         onclick="anteriorDesdeImagenes()"
                     >
+
                         ← ANTERIOR
+
                     </button>
 
 
@@ -5098,7 +5163,9 @@ function mostrarImagenes(expediente = null) {
                             class="boton-principal"
                             onclick="guardarImagenes()"
                         >
+
                             GUARDAR
+
                         </button>
 
 
@@ -5107,8 +5174,11 @@ function mostrarImagenes(expediente = null) {
                             class="boton-siguiente"
                             onclick="mostrarCarga()"
                         >
+
                             PREPARAR INFORME →
+
                         </button>
+
 
                     </div>
 
@@ -5125,23 +5195,32 @@ function mostrarImagenes(expediente = null) {
     // RECUPERAR PORTADA
     // =====================================
 
-    if (expediente.imagenPortada) {
+    if (
+        expediente.imagenPortada
+    ) {
 
         const preview =
-            document.getElementById("previewPortada");
+            document.getElementById(
+                "previewPortada"
+            );
 
         const mensaje =
-            document.getElementById("mensajePortada");
+            document.getElementById(
+                "mensajePortada"
+            );
 
 
         preview.src =
             expediente.imagenPortada;
 
+
         preview.style.display =
             "block";
 
+
         mensaje.style.display =
             "none";
+
     }
 
 
@@ -5149,7 +5228,9 @@ function mostrarImagenes(expediente = null) {
     // RECUPERAR LOCALIZACIÓN
     // =====================================
 
-    if (expediente.imagenLocalizacion) {
+    if (
+        expediente.imagenLocalizacion
+    ) {
 
         const preview =
             document.getElementById(
@@ -5165,11 +5246,14 @@ function mostrarImagenes(expediente = null) {
         preview.src =
             expediente.imagenLocalizacion;
 
+
         preview.style.display =
             "block";
 
+
         mensaje.style.display =
             "none";
+
     }
 
 }
